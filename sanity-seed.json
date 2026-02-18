@@ -1,0 +1,408 @@
+[
+  {
+    "_id": "testimonial.amanda-l",
+    "_type": "testimonial",
+    "name": "Amanda L.",
+    "location": "Glen Burnie, MD",
+    "rating": 5,
+    "text": "The team handled our roof replacement quickly and the cleanup was spotless. We felt informed every step of the way.",
+    "date": "2024-08-15"
+  },
+  {
+    "_id": "testimonial.jason-p",
+    "_type": "testimonial",
+    "name": "Jason P.",
+    "location": "Severna Park, MD",
+    "rating": 5,
+    "text": "After a storm, they secured our home the same day and helped with the insurance paperwork. Highly recommended.",
+    "date": "2024-09-09"
+  },
+  {
+    "_id": "testimonial.maria-s",
+    "_type": "testimonial",
+    "name": "Maria S.",
+    "location": "Annapolis, MD",
+    "rating": 5,
+    "text": "Our kitchen remodel was on schedule and the craftsmanship is outstanding. Great communication throughout.",
+    "date": "2024-10-05"
+  },
+  {
+    "_id": "galleryItem.1",
+    "_type": "galleryItem",
+    "title": "Roof replacement project in Annapolis, Maryland",
+    "sourcePath": "/gallery/legacy/annapolisroof-1.jpg",
+    "alt": "Roof replacement project in Annapolis, Maryland",
+    "category": "Roofing",
+    "location": "Annapolis, MD",
+    "serviceSlugs": [
+      "roofing",
+      "storm-damage"
+    ]
+  },
+  {
+    "_id": "galleryItem.2",
+    "_type": "galleryItem",
+    "title": "Residential roofing crew completing shingle installation",
+    "sourcePath": "/gallery/legacy/annapolisroof-4.jpg",
+    "alt": "Residential roofing crew completing shingle installation",
+    "category": "Roofing",
+    "location": "Annapolis, MD",
+    "serviceSlugs": [
+      "roofing"
+    ]
+  },
+  {
+    "_id": "galleryItem.3",
+    "_type": "galleryItem",
+    "title": "Completed roof upgrade with clean ridge and flashing detail",
+    "sourcePath": "/gallery/legacy/annapolisroof-7.jpg",
+    "alt": "Completed roof upgrade with clean ridge and flashing detail",
+    "category": "Roofing",
+    "location": "Annapolis, MD",
+    "serviceSlugs": [
+      "roofing"
+    ]
+  },
+  {
+    "_id": "galleryItem.4",
+    "_type": "galleryItem",
+    "title": "Roofline restoration work in Ellicott City",
+    "sourcePath": "/gallery/legacy/Ellicott-City1.JPG",
+    "alt": "Roofline restoration work in Ellicott City",
+    "category": "Roofing",
+    "location": "Ellicott City, MD",
+    "serviceSlugs": [
+      "roofing",
+      "storm-damage"
+    ]
+  },
+  {
+    "_id": "galleryItem.5",
+    "_type": "galleryItem",
+    "title": "High-slope roof replacement with weatherproofing upgrades",
+    "sourcePath": "/gallery/legacy/Kingsbridge-Rd-Ellicott-City2.JPG",
+    "alt": "High-slope roof replacement with weatherproofing upgrades",
+    "category": "Roofing",
+    "location": "Ellicott City, MD",
+    "serviceSlugs": [
+      "roofing",
+      "storm-damage"
+    ]
+  },
+  {
+    "_id": "galleryItem.6",
+    "_type": "galleryItem",
+    "title": "Bowie roofing project showing full exterior refresh",
+    "sourcePath": "/gallery/legacy/bowie-maryland3.JPG",
+    "alt": "Bowie roofing project showing full exterior refresh",
+    "category": "Roofing",
+    "location": "Bowie, MD",
+    "serviceSlugs": [
+      "roofing",
+      "siding-gutters"
+    ]
+  },
+  {
+    "_id": "galleryItem.7",
+    "_type": "galleryItem",
+    "title": "Post-storm roofing restoration sequence in Edgewater",
+    "sourcePath": "/gallery/legacy/hazelwood-rd-edgwater-md3.JPG",
+    "alt": "Post-storm roofing restoration sequence in Edgewater",
+    "category": "Restoration",
+    "location": "Edgewater, MD",
+    "serviceSlugs": [
+      "storm-damage",
+      "emergency-services"
+    ]
+  },
+  {
+    "_id": "galleryItem.8",
+    "_type": "galleryItem",
+    "title": "Emergency roof securement and damage mitigation",
+    "sourcePath": "/gallery/legacy/hazelwood-rd-edgwater-md7.JPG",
+    "alt": "Emergency roof securement and damage mitigation",
+    "category": "Restoration",
+    "location": "Edgewater, MD",
+    "serviceSlugs": [
+      "emergency-services",
+      "storm-damage"
+    ]
+  },
+  {
+    "_id": "galleryItem.9",
+    "_type": "galleryItem",
+    "title": "Leak mitigation and roof restoration in Laurel",
+    "sourcePath": "/gallery/legacy/gentry-ct-laurel-md1.jpg",
+    "alt": "Leak mitigation and roof restoration in Laurel",
+    "category": "Restoration",
+    "location": "Laurel, MD",
+    "serviceSlugs": [
+      "water-damage",
+      "storm-damage"
+    ]
+  },
+  {
+    "_id": "galleryItem.10",
+    "_type": "galleryItem",
+    "title": "Exterior repairs completed after water intrusion event",
+    "sourcePath": "/gallery/legacy/gentry-ct-laurel-md4.jpg",
+    "alt": "Exterior repairs completed after water intrusion event",
+    "category": "Restoration",
+    "location": "Laurel, MD",
+    "serviceSlugs": [
+      "water-damage",
+      "emergency-services"
+    ]
+  },
+  {
+    "_id": "galleryItem.11",
+    "_type": "galleryItem",
+    "title": "Trex deck installation with custom layout",
+    "sourcePath": "/gallery/legacy/2025-deck-carmel-trex-maryland-dc-1.jpg",
+    "alt": "Trex deck installation with custom layout",
+    "category": "Decks & Patios",
+    "location": "Maryland",
+    "serviceSlugs": [
+      "decks-patios"
+    ]
+  },
+  {
+    "_id": "galleryItem.12",
+    "_type": "galleryItem",
+    "title": "Composite deck framing and finish detail",
+    "sourcePath": "/gallery/legacy/2025-deck-carmel-trex-maryland-dc-3.jpg",
+    "alt": "Composite deck framing and finish detail",
+    "category": "Decks & Patios",
+    "location": "Maryland",
+    "serviceSlugs": [
+      "decks-patios"
+    ]
+  },
+  {
+    "_id": "galleryItem.13",
+    "_type": "galleryItem",
+    "title": "Outdoor deck build with upgraded rail and stairs",
+    "sourcePath": "/gallery/legacy/2025-deck-carmel-trex-maryland-dc-6.jpg",
+    "alt": "Outdoor deck build with upgraded rail and stairs",
+    "category": "Decks & Patios",
+    "location": "Maryland",
+    "serviceSlugs": [
+      "decks-patios"
+    ]
+  },
+  {
+    "_id": "galleryItem.14",
+    "_type": "galleryItem",
+    "title": "Large-format deck project in Maryland / DC corridor",
+    "sourcePath": "/gallery/legacy/2025-deck-projects-maryland-and-DC-2.jpg",
+    "alt": "Large-format deck project in Maryland / DC corridor",
+    "category": "Decks & Patios",
+    "location": "DMV",
+    "serviceSlugs": [
+      "decks-patios"
+    ]
+  },
+  {
+    "_id": "galleryItem.15",
+    "_type": "galleryItem",
+    "title": "Finished deck and patio transition area",
+    "sourcePath": "/gallery/legacy/2025-deck-projects-maryland-and-DC-5.jpg",
+    "alt": "Finished deck and patio transition area",
+    "category": "Decks & Patios",
+    "location": "DMV",
+    "serviceSlugs": [
+      "decks-patios",
+      "home-additions"
+    ]
+  },
+  {
+    "_id": "galleryItem.16",
+    "_type": "galleryItem",
+    "title": "Full renovation project in Glen Burnie",
+    "sourcePath": "/gallery/legacy/2025-glenburnie-md-rnovation-1.jpg",
+    "alt": "Full renovation project in Glen Burnie",
+    "category": "Renovations",
+    "location": "Glen Burnie, MD",
+    "serviceSlugs": [
+      "kitchen-bath",
+      "home-additions"
+    ]
+  },
+  {
+    "_id": "galleryItem.17",
+    "_type": "galleryItem",
+    "title": "Interior renovation with modern finish package",
+    "sourcePath": "/gallery/legacy/2025-glenburnie-md-rnovation-4.jpg",
+    "alt": "Interior renovation with modern finish package",
+    "category": "Renovations",
+    "location": "Glen Burnie, MD",
+    "serviceSlugs": [
+      "kitchen-bath"
+    ]
+  },
+  {
+    "_id": "galleryItem.18",
+    "_type": "galleryItem",
+    "title": "Whole-home renovation progress and finish carpentry",
+    "sourcePath": "/gallery/legacy/2025-glenburnie-md-rnovation-8.jpg",
+    "alt": "Whole-home renovation progress and finish carpentry",
+    "category": "Renovations",
+    "location": "Glen Burnie, MD",
+    "serviceSlugs": [
+      "kitchen-bath",
+      "home-additions"
+    ]
+  },
+  {
+    "_id": "galleryItem.19",
+    "_type": "galleryItem",
+    "title": "Comprehensive exterior/interior transformation",
+    "sourcePath": "/gallery/legacy/glen-burnie-full2.jpg",
+    "alt": "Comprehensive exterior/interior transformation",
+    "category": "Renovations",
+    "location": "Glen Burnie, MD",
+    "serviceSlugs": [
+      "kitchen-bath",
+      "siding-gutters"
+    ]
+  },
+  {
+    "_id": "galleryItem.20",
+    "_type": "galleryItem",
+    "title": "Remodeling phase completion with updated exterior lines",
+    "sourcePath": "/gallery/legacy/glen-burnie-full7.jpg",
+    "alt": "Remodeling phase completion with updated exterior lines",
+    "category": "Renovations",
+    "location": "Glen Burnie, MD",
+    "serviceSlugs": [
+      "kitchen-bath",
+      "siding-gutters"
+    ]
+  },
+  {
+    "_id": "galleryItem.21",
+    "_type": "galleryItem",
+    "title": "Project closeout on full remodel in Glen Burnie",
+    "sourcePath": "/gallery/legacy/glen-burnie-full12.jpg",
+    "alt": "Project closeout on full remodel in Glen Burnie",
+    "category": "Renovations",
+    "location": "Glen Burnie, MD",
+    "serviceSlugs": [
+      "kitchen-bath",
+      "home-additions"
+    ]
+  },
+  {
+    "_id": "galleryItem.22",
+    "_type": "galleryItem",
+    "title": "High-end renovation with coordinated trade execution",
+    "sourcePath": "/gallery/legacy/glen-burnie-full18.jpg",
+    "alt": "High-end renovation with coordinated trade execution",
+    "category": "Renovations",
+    "location": "Glen Burnie, MD",
+    "serviceSlugs": [
+      "kitchen-bath"
+    ]
+  },
+  {
+    "_id": "galleryItem.23",
+    "_type": "galleryItem",
+    "title": "Home addition framing and tie-in in Dayton, Maryland",
+    "sourcePath": "/gallery/legacy/home-addition-dayton-md1.jpg",
+    "alt": "Home addition framing and tie-in in Dayton, Maryland",
+    "category": "Home Additions",
+    "location": "Dayton, MD",
+    "serviceSlugs": [
+      "home-additions"
+    ]
+  },
+  {
+    "_id": "galleryItem.24",
+    "_type": "galleryItem",
+    "title": "Pasadena exterior expansion and remodeling scope",
+    "sourcePath": "/gallery/legacy/Annapolis-Blvd-Pasadena4.JPG",
+    "alt": "Pasadena exterior expansion and remodeling scope",
+    "category": "Home Additions",
+    "location": "Pasadena, MD",
+    "serviceSlugs": [
+      "home-additions",
+      "siding-gutters"
+    ]
+  },
+  {
+    "_id": "galleryItem.25",
+    "_type": "galleryItem",
+    "title": "Addition and envelope upgrade project in Pasadena",
+    "sourcePath": "/gallery/legacy/Annapolis-Blvd-Pasadena9.JPG",
+    "alt": "Addition and envelope upgrade project in Pasadena",
+    "category": "Home Additions",
+    "location": "Pasadena, MD",
+    "serviceSlugs": [
+      "home-additions"
+    ]
+  },
+  {
+    "_id": "galleryItem.26",
+    "_type": "galleryItem",
+    "title": "Sykesville remodeling and extension project",
+    "sourcePath": "/gallery/legacy/White-Way-Sykesville-MD3.JPG",
+    "alt": "Sykesville remodeling and extension project",
+    "category": "Home Additions",
+    "location": "Sykesville, MD",
+    "serviceSlugs": [
+      "home-additions",
+      "kitchen-bath"
+    ]
+  },
+  {
+    "_id": "galleryItem.27",
+    "_type": "galleryItem",
+    "title": "Completed addition with exterior finishing in Sykesville",
+    "sourcePath": "/gallery/legacy/White-Way-Sykesville-MD7.JPG",
+    "alt": "Completed addition with exterior finishing in Sykesville",
+    "category": "Home Additions",
+    "location": "Sykesville, MD",
+    "serviceSlugs": [
+      "home-additions"
+    ]
+  },
+  {
+    "_id": "galleryItem.28",
+    "_type": "galleryItem",
+    "title": "Commercial exterior rehabilitation and roof coordination",
+    "sourcePath": "/gallery/legacy/bowie-maryland8.JPG",
+    "alt": "Commercial exterior rehabilitation and roof coordination",
+    "category": "Restoration",
+    "location": "Bowie, MD",
+    "serviceSlugs": [
+      "emergency-services",
+      "storm-damage"
+    ]
+  },
+  {
+    "_id": "galleryItem.29",
+    "_type": "galleryItem",
+    "title": "Structural repair sequence for weather-related damage",
+    "sourcePath": "/gallery/legacy/Ellicott-City8.JPG",
+    "alt": "Structural repair sequence for weather-related damage",
+    "category": "Restoration",
+    "location": "Ellicott City, MD",
+    "serviceSlugs": [
+      "storm-damage",
+      "water-damage"
+    ]
+  },
+  {
+    "_id": "galleryItem.30",
+    "_type": "galleryItem",
+    "title": "Storm-ready roofing completion with upgraded underlayment",
+    "sourcePath": "/gallery/legacy/annapolisroof-12.jpg",
+    "alt": "Storm-ready roofing completion with upgraded underlayment",
+    "category": "Restoration",
+    "location": "Annapolis, MD",
+    "serviceSlugs": [
+      "storm-damage",
+      "roofing"
+    ]
+  }
+]

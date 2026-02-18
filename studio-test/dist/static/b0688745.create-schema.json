@@ -1,0 +1,466 @@
+[
+  {
+    "fields": [
+      {
+        "initialValue": "Homepage Content",
+        "name": "title",
+        "type": "string",
+        "title": "Internal Title"
+      },
+      {
+        "name": "heroHeadline",
+        "type": "string"
+      },
+      {
+        "rows": 3,
+        "name": "heroSubheadline",
+        "type": "text"
+      },
+      {
+        "name": "localIntroHeading",
+        "type": "string"
+      },
+      {
+        "rows": 3,
+        "name": "localIntroBody",
+        "type": "text"
+      },
+      {
+        "name": "trustedHeading",
+        "type": "string",
+        "title": "Trusted Section Heading"
+      },
+      {
+        "name": "remodelingHeading",
+        "type": "string",
+        "title": "Remodeling Section Heading"
+      },
+      {
+        "rows": 2,
+        "name": "remodelingBody",
+        "type": "text",
+        "title": "Remodeling Section Body"
+      },
+      {
+        "name": "emergencyHeading",
+        "type": "string",
+        "title": "Emergency Section Heading"
+      },
+      {
+        "rows": 2,
+        "name": "emergencyBody",
+        "type": "text",
+        "title": "Emergency Section Body"
+      },
+      {
+        "name": "seo",
+        "type": "seo",
+        "title": "SEO"
+      }
+    ],
+    "name": "homepage",
+    "type": "document"
+  },
+  {
+    "fields": [
+      {
+        "options": {
+          "list": [
+            {
+              "title": "Roofing",
+              "value": "roofing"
+            },
+            {
+              "title": "Windows",
+              "value": "windows"
+            },
+            {
+              "title": "Siding & Gutters",
+              "value": "siding-gutters"
+            },
+            {
+              "title": "Kitchen & Bath",
+              "value": "kitchen-bath"
+            },
+            {
+              "title": "Home Additions",
+              "value": "home-additions"
+            },
+            {
+              "title": "Decks & Patios",
+              "value": "decks-patios"
+            },
+            {
+              "title": "Emergency Services",
+              "value": "emergency-services"
+            },
+            {
+              "title": "Water & Flood Damage",
+              "value": "water-damage"
+            },
+            {
+              "title": "Fire & Smoke Damage",
+              "value": "fire-smoke-damage"
+            },
+            {
+              "title": "Storm Damage",
+              "value": "storm-damage"
+            }
+          ]
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "valid",
+                "constraint": [
+                  "roofing",
+                  "windows",
+                  "siding-gutters",
+                  "kitchen-bath",
+                  "home-additions",
+                  "decks-patios",
+                  "emergency-services",
+                  "water-damage",
+                  "fire-smoke-damage",
+                  "storm-damage"
+                ]
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "serviceName",
+        "type": "string"
+      },
+      {
+        "options": {
+          "source": "serviceName"
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "custom"
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "slug",
+        "type": "slug"
+      },
+      {
+        "name": "seoHeadline",
+        "type": "string",
+        "title": "SEO Headline (H1)"
+      },
+      {
+        "rows": 3,
+        "name": "heroIntro",
+        "type": "text"
+      },
+      {
+        "name": "ctaPrimary",
+        "type": "string",
+        "title": "CTA Primary Label"
+      },
+      {
+        "name": "ctaSecondary",
+        "type": "string",
+        "title": "CTA Secondary Label"
+      },
+      {
+        "of": [
+          {
+            "type": "faqItem",
+            "title": "FAQ Item"
+          }
+        ],
+        "name": "faqs",
+        "type": "array",
+        "title": "Service FAQs"
+      },
+      {
+        "name": "seo",
+        "type": "seo",
+        "title": "SEO"
+      }
+    ],
+    "name": "servicePage",
+    "type": "document"
+  },
+  {
+    "fields": [
+      {
+        "name": "companyName",
+        "type": "string"
+      },
+      {
+        "name": "tagline",
+        "type": "string"
+      },
+      {
+        "name": "phone",
+        "type": "string"
+      },
+      {
+        "name": "phoneDigits",
+        "type": "string"
+      },
+      {
+        "name": "email",
+        "type": "string"
+      },
+      {
+        "name": "address",
+        "type": "string"
+      },
+      {
+        "name": "hours",
+        "type": "string"
+      },
+      {
+        "name": "serviceArea",
+        "type": "string",
+        "title": "Service Area Summary"
+      },
+      {
+        "name": "seoDefault",
+        "type": "seo",
+        "title": "Default SEO"
+      }
+    ],
+    "name": "siteSettings",
+    "type": "document"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "name": "location",
+        "type": "string"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "min",
+                "constraint": 1
+              },
+              {
+                "flag": "max",
+                "constraint": 5
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "rating",
+        "type": "number"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "text",
+        "type": "text",
+        "title": "Quote"
+      },
+      {
+        "name": "date",
+        "type": "date"
+      }
+    ],
+    "name": "testimonial",
+    "type": "document"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "title",
+        "type": "string"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "name": "image",
+        "type": "image"
+      },
+      {
+        "name": "sourcePath",
+        "type": "string",
+        "title": "Source Path (public file path)"
+      },
+      {
+        "name": "alt",
+        "type": "string",
+        "title": "Alt Text"
+      },
+      {
+        "options": {
+          "list": [
+            "Roofing",
+            "Decks & Patios",
+            "Renovations",
+            "Home Additions",
+            "Restoration"
+          ]
+        },
+        "name": "category",
+        "type": "string"
+      },
+      {
+        "name": "location",
+        "type": "string"
+      },
+      {
+        "of": [
+          {
+            "type": "string"
+          }
+        ],
+        "name": "serviceSlugs",
+        "type": "array",
+        "title": "Related Service Slugs"
+      }
+    ],
+    "name": "galleryItem",
+    "type": "document"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "question",
+        "type": "string"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "answer",
+        "type": "text"
+      }
+    ],
+    "name": "faqItem",
+    "type": "object",
+    "title": "FAQ Item"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "max",
+                "constraint": 70
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "metaTitle",
+        "type": "string"
+      },
+      {
+        "rows": 3,
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "max",
+                "constraint": 170
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "metaDescription",
+        "type": "text"
+      },
+      {
+        "of": [
+          {
+            "type": "string"
+          }
+        ],
+        "name": "keywords",
+        "type": "array"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "name": "ogImage",
+        "type": "image",
+        "title": "Open Graph Image"
+      }
+    ],
+    "name": "seo",
+    "type": "object",
+    "title": "SEO"
+  }
+]

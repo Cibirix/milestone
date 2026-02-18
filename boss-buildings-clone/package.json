@@ -1,0 +1,11 @@
+{
+  "name": "boss-buildings-clone",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "mirror:chunk": "MIRROR_MAX_SECONDS=600 node scripts/mirror-bossbuildings.mjs",
+    "mirror:quick": "MIRROR_MAX_SECONDS=120 node scripts/mirror-bossbuildings.mjs",
+    "mirror:status": "node scripts/mirror-status.mjs",
+    "serve": "node scripts/serve-mirror.mjs"
+  }
+}
