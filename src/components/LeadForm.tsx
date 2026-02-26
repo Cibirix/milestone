@@ -4,7 +4,13 @@ import { useState } from 'react'
 import { FiCheck } from 'react-icons/fi'
 import { siteInfo } from '@/data/siteData'
 
-const LeadForm = ({ variant = 'light' }: { variant?: 'light' | 'dark' }) => {
+const LeadForm = ({
+  variant = 'light',
+  phone = siteInfo.phone,
+}: {
+  variant?: 'light' | 'dark'
+  phone?: string
+}) => {
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -128,7 +134,7 @@ const LeadForm = ({ variant = 'light' }: { variant?: 'light' | 'dark' }) => {
         </form>
       )}
 
-      <p className="mt-4 text-xs text-slate-500">For immediate assistance, call {siteInfo.phone}.</p>
+      <p className="mt-4 text-xs text-slate-500">For immediate assistance, call {phone}.</p>
     </div>
   )
 }

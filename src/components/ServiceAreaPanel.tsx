@@ -77,7 +77,7 @@ const ServiceAreaPanel = () => {
             <FiNavigation />
             Response Model
           </div>
-          <p className="text-slate-600 mt-1">Dispatch and scheduling from Glen Burnie operations</p>
+          <p className="text-slate-600 mt-1">Direct scheduling support coordinated from the Milestone Structures team</p>
         </div>
       </div>
 

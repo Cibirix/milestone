@@ -1,7 +1,9 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
+import { usePathname } from 'next/navigation'
 import { FiMenu, FiPhone, FiX } from 'react-icons/fi'
 
 type HeaderProps = {
@@ -19,48 +21,72 @@ const navLinks = [
   { href: '/contact', label: 'Contact' },
 ]
 
+const tickerMessages = [
+  'Veteran-owned and operated metal building dealer with a multi-state service focus',
+  'Extreme dedication to customer service from first call to final build',
+  'Fully customizable metal buildings built around your exact vision',
+  'Based in Pilot Mountain, NC and serving multi-state coverage areas',
+]
+
 const Header = ({ siteInfo }: HeaderProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [tickerIndex, setTickerIndex] = useState(0)
+  const pathname = usePathname()
+
+  useEffect(() => {
+    const interval = window.setInterval(() => {
+      setTickerIndex((prev) => (prev + 1) % tickerMessages.length)
+    }, 3500)
+
+    return () => window.clearInterval(interval)
+  }, [])
 
   const closeMenu = () => setIsMenuOpen(false)
 
   return (
     <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/95 backdrop-blur">
       <div className="border-b border-slate-200 bg-slate-950 text-slate-100">
-        <div className="container-custom flex items-center justify-between gap-3 py-2 text-xs sm:text-sm">
-          <p className="font-medium text-slate-300">Veteran-led metal building dealer with nationwide service focus</p>
-          <div className="flex items-center gap-2">
-            <a href={`tel:${siteInfo.phoneDigits}`} className="hidden rounded-md px-3 py-1.5 text-slate-200 transition hover:bg-slate-800 sm:inline-flex">
-              <FiPhone className="mr-2" /> {siteInfo.phone}
-            </a>
-            <button type="button" className="rounded-md bg-rust-600 px-3 py-1.5 font-semibold text-white transition hover:bg-rust-700">
-              3D Builder
-            </button>
-          </div>
+        <div className="container-custom py-2 text-xs sm:text-sm">
+          <p key={tickerIndex} className="text-center font-medium text-slate-300 transition-opacity duration-300">
+            {tickerMessages[tickerIndex]}
+          </p>
         </div>
       </div>
 
-      <div className="container-custom flex items-center justify-between gap-4 py-3 lg:py-4">
-        <Link href="/" className="group" onClick={closeMenu}>
-          <p className="font-display text-2xl tracking-wide text-brand-900">MILESTONE</p>
-          <p className="-mt-1 text-xs font-semibold uppercase tracking-[0.3em] text-charcoal-600">Steel Structures</p>
+      <div className="container-custom flex items-center justify-between gap-4 py-2.5 lg:grid lg:grid-cols-[1fr_auto_1fr] lg:items-center lg:gap-6 lg:py-3">
+        <Link href="/" className="group lg:justify-self-start" onClick={closeMenu}>
+          <Image
+            src="/brand/milestone-logo-transparent.png"
+            alt="Milestone Structures"
+            width={260}
+            height={260}
+            className="h-[4.9rem] w-auto object-contain"
+            priority
+          />
         </Link>
 
-        <nav className="hidden items-center gap-7 lg:flex">
+        <nav className="hidden items-center justify-center gap-7 lg:flex">
           {navLinks.map((link) => (
-            <Link key={link.href} href={link.href} className="text-sm font-semibold text-slate-700 transition hover:text-brand-700">
+            <Link
+              key={link.href}
+              href={link.href}
+              className={`group relative pb-1 text-sm font-semibold transition ${pathname === link.href ? 'text-brand-700' : 'text-slate-700 hover:text-brand-700'}`}
+            >
               {link.label}
+              <span
+                className={`absolute left-0 -bottom-0.5 h-0.5 w-full rounded-full bg-brand-700 transition-all duration-200 ${pathname === link.href ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}
+              />
             </Link>
           ))}
         </nav>
 
-        <div className="hidden items-center gap-3 lg:flex">
-          <a href={`tel:${siteInfo.phoneDigits}`} className="btn-outline px-4 py-2 text-sm">
+        <div className="hidden items-center justify-end gap-3 lg:flex lg:justify-self-end">
+          <a href={`tel:${siteInfo.phoneDigits}`} className="btn-outline px-5 py-2.5 text-base">
             <FiPhone className="mr-2" /> {siteInfo.phone}
           </a>
-          <Link href="/contact" className="btn-primary px-4 py-2 text-sm">
-            Get a Quote
-          </Link>
+          <button type="button" className="rounded-lg bg-rust-600 px-5 py-2.5 text-base font-semibold text-white transition hover:bg-rust-700">
+            3D Builder
+          </button>
         </div>
 
         <button
@@ -84,8 +110,7 @@ const Header = ({ siteInfo }: HeaderProps) => {
               ))}
             </div>
             <div className="mt-3 flex flex-col gap-2">
-              <button type="button" className="btn-secondary text-sm">3D Builder</button>
-              <Link href="/contact" onClick={closeMenu} className="btn-primary text-sm">Get a Quote</Link>
+              <button type="button" className="rounded-lg bg-rust-600 px-4 py-3 text-sm font-semibold text-white transition hover:bg-rust-700">3D Builder</button>
             </div>
           </div>
         </div>

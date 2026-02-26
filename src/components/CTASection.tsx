@@ -12,7 +12,7 @@ const CTASection = () => {
               Get a free estimate and talk with a project specialist today.
             </h2>
             <p className="text-slate-200 text-lg">
-              From roofing and remodeling to emergency restoration, we provide clear pricing, fast scheduling, and licensed workmanship across Glen Burnie and Anne Arundel County.
+              From garages and workshops to agricultural buildings and carports, we provide quote-first guidance, customization support, and veteran-owned service across a multi-state coverage area.
             </p>
           </div>
           <div className="flex flex-col sm:flex-row gap-4 lg:justify-end">

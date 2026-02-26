@@ -64,7 +64,7 @@ const ContactPageContent = ({ title, subtitle }: ContactPageContentProps) => {
 
               <div className="mt-8 rounded-2xl overflow-hidden border border-slate-200">
                 <iframe
-                  title="House Transformers Inc. Location"
+                  title="Milestone Structures Location"
                   src={mapSrc}
                   className="w-full h-72"
                   loading="lazy"

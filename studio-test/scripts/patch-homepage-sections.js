@@ -1,13 +1,13 @@
 const { getCliClient } = require('sanity/cli')
 
 const defaults = {
-  trustedHeading: 'Trusted & Certified Craftsmanship Backed by Industry Leaders',
-  remodelingHeading: 'Transform Your Home or Facility With Confidence',
+  trustedHeading: 'Veteran-Owned Service with Honest, Hands-On Guidance',
+  remodelingHeading: 'Explore Custom Metal Building Options',
   remodelingBody:
-    'From roofing to full remodels, our crews handle every detail with careful planning, code-compliant work, and premium materials.',
-  emergencyHeading: '24/7 Emergency Response for Storm, Water, and Fire Damage',
+    'From garages and workshops to agricultural buildings and carports, Milestone Structures helps customers compare layouts, sizing, and configuration options with direct support from first call to final build.',
+  emergencyHeading: 'Manufacturer-Backed Options and Quote Support',
   emergencyBody:
-    'Call anytime for emergency roof tarping, leak control, flood cleanup, and rapid home stabilization services in Glen Burnie and Anne Arundel County.',
+    'Warranty, insulation, and financing details vary by manufacturer and product configuration. Our team helps you compare the right options for your project and service area.',
 }
 
 function isBlank(value) {

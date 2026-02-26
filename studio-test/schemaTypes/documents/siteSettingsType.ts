@@ -13,6 +13,9 @@ export const siteSettingsType = defineType({
     defineField({ name: 'address', title: 'Address', type: 'string' }),
     defineField({ name: 'hours', title: 'Hours', type: 'string' }),
     defineField({ name: 'serviceArea', title: 'Service Area Summary', type: 'string' }),
+    defineField({ name: 'facebookUrl', title: 'Facebook URL', type: 'url' }),
+    defineField({ name: 'instagramUrl', title: 'Instagram URL', type: 'url' }),
+    defineField({ name: 'footerSummary', title: 'Footer Summary', type: 'text', rows: 3 }),
     defineField({ name: 'seoDefault', title: 'Default SEO', type: 'seo' }),
   ],
   preview: {

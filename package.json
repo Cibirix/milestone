@@ -9,6 +9,8 @@
     "dev:all": "concurrently -n site,studio -c blue,magenta \"npm run dev:site\" \"npm run dev:studio\"",
     "sanity:seed:prepare": "tsx scripts/generate-sanity-seed.ts",
     "sanity:seed:upsert": "npm run sanity:seed:prepare && cd studio-test && npx sanity documents create ../sanity-seed.json --replace --dataset production",
+    "sanity:seed:milestone:prepare": "tsx scripts/generate-milestone-sanity-seed.ts",
+    "sanity:seed:milestone:upsert": "npm run sanity:seed:milestone:prepare && cd studio-test && npx sanity documents create ../sanity-seed-milestone.json --replace --dataset production",
     "build": "next build",
     "build:static": "STATIC_EXPORT=true NEXT_PUBLIC_BASE_PATH=test next build && node scripts/fix-image-paths.js",
     "start": "next start",

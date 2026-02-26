@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import { FiMail, FiMapPin, FiPhone } from 'react-icons/fi'
 import { FaFacebookF, FaInstagram } from 'react-icons/fa'
 
@@ -11,6 +12,7 @@ type FooterProps = {
     address: string
     hours: string
     serviceArea?: string
+    footerSummary?: string
     social: {
       facebook: string
       instagram: string
@@ -28,10 +30,15 @@ const Footer = ({ siteInfo }: FooterProps) => {
       <div className="container-custom py-14">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-4">
           <div>
-            <p className="font-display text-2xl tracking-wide text-white">MILESTONE</p>
-            <p className="text-xs font-semibold uppercase tracking-[0.26em] text-brand-200">Steel Structures</p>
+            <Image
+              src="/brand/milestone-logo-transparent.png"
+              alt="Milestone Structures"
+              width={230}
+              height={230}
+              className="h-16 w-auto object-contain"
+            />
             <p className="mt-4 text-sm text-slate-400">
-              Veteran-led metal building dealer focused on custom structures, transparent service, and dependable delivery.
+              {siteInfo.footerSummary || 'Veteran-owned and operated metal building dealer focused on custom structures, transparent service, and dependable delivery.'}
             </p>
             <div className="mt-4 flex items-center gap-3 text-slate-400">
               <a href={siteInfo.social.facebook} aria-label="Facebook" className="transition hover:text-white"><FaFacebookF /></a>

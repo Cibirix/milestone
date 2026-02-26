@@ -1,9 +1,9 @@
 import { defineCliConfig } from 'sanity/cli'
 
 export default defineCliConfig({
-  studioHost: 'house-transformers-cms',
+  studioHost: 'milestone-structures-cms',
   api: {
-    projectId: 'ww716qap',
+    projectId: 'qj0b1rli',
     dataset: 'production',
   },
 })

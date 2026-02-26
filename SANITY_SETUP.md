@@ -2,10 +2,11 @@
 
 ## What is now implemented
 - A standalone Studio was added at `studio-test/` and connected to:
-  - Project ID: `ww716qap`
+  - Project ID: `qj0b1rli`
   - Dataset: `production`
 - Initial schema model created for:
   - `homepage`
+  - `product`
   - `servicePage`
   - `siteSettings`
   - `testimonial`
@@ -15,13 +16,14 @@
   - `src/lib/sanity/client.ts`
   - `src/lib/sanity/queries.ts`
   - `src/lib/sanity/content.ts`
-- Homepage and service detail pages now read Sanity when content exists, and fall back to existing hardcoded content when it does not.
+- Homepage, product pages, and service detail pages now read Sanity when content exists, and fall back to existing hardcoded content when it does not.
+- Merchant feed endpoint now reads from Sanity products marked for feed inclusion.
 
 ## Environment variables
 Copy `.env.example` to `.env.local` in the Next.js app root.
 
 Required for public dataset reads:
-- `NEXT_PUBLIC_SANITY_PROJECT_ID=ww716qap`
+- `NEXT_PUBLIC_SANITY_PROJECT_ID=qj0b1rli`
 - `NEXT_PUBLIC_SANITY_DATASET=production`
 - `NEXT_PUBLIC_SANITY_API_VERSION=2026-02-10`
 - `SANITY_REVALIDATE_SECONDS=60`
@@ -48,9 +50,30 @@ From project root:
 
 ## Content entry order (recommended)
 1. Create one `homepage` document and fill hero + SEO fields.
-2. Create one `servicePage` for `roofing` and fill SEO/headline/CTA/FAQ fields.
-3. Validate `/` and `/services/roofing` locally.
-4. Create service docs for remaining slugs.
+2. Create `product` documents for each model you want live on `/products`.
+3. For products that should be sent to channels, set:
+   - `includeInFeed=true`
+   - `feedPrice`
+   - `currency` (default USD)
+   - `availability`
+4. Validate `/products`, `/products/<slug>`, and `/merchant-feed.xml` locally.
+5. Create `servicePage` documents as needed.
+
+## Milestone demo seed (homepage + products)
+- Generate seed payload:
+  - `npm run sanity:seed:milestone:prepare`
+- Upsert into Sanity dataset (requires project access):
+  - `npm run sanity:seed:milestone:upsert`
+- Seed output files:
+  - `sanity-seed-milestone.json`
+  - `sanity-seed-milestone.ndjson`
+
+## Merchant / Catalog feed
+- Feed URL: `https://<your-domain>/merchant-feed.xml`
+- Built from Sanity `product` documents where:
+  - `includeInFeed == true`
+  - `feedPrice` is defined
+- Intended for Google Merchant Center / Meta catalog ingestion when using a Sanity-only stack (no Woo/WordPress backend).
 
 ## Full migration next steps
 1. Move remaining service content from static data into `servicePage` documents.

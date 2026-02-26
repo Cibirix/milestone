@@ -4,9 +4,9 @@ import { schemaTypes } from './schemaTypes'
 
 export default defineConfig({
   name: 'default',
-  title: 'House Transformers CMS',
+  title: 'Milestone Structures CMS',
 
-  projectId: 'ww716qap',
+  projectId: 'qj0b1rli',
   dataset: 'production',
 
   plugins: [deskTool()],

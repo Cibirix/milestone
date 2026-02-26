@@ -55,8 +55,8 @@ const TestimonialsSection = ({ testimonialsList = testimonials, businessName = s
         <div className="container-custom">
           <div className="text-center mb-10">
             <p className="text-sm font-semibold text-brand-600 uppercase tracking-wide">Reviews</p>
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900">Trusted by Maryland homeowners and businesses</h2>
-            <p className="text-slate-600 mt-3">Consistent quality, responsive crews, and clear communication.</p>
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900">Trusted by customers building their next milestone</h2>
+            <p className="text-slate-600 mt-3">Clear communication, customization support, and dependable service.</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

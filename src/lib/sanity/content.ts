@@ -1,5 +1,16 @@
 import { sanityConfig } from './client'
-import { galleryItemsQuery, homepageQuery, servicePageBySlugQuery, siteSettingsQuery, testimonialsQuery } from './queries'
+import {
+  aboutPageQuery,
+  contactPageQuery,
+  galleryItemsQuery,
+  homepageQuery,
+  merchantFeedProductsQuery,
+  productBySlugQuery,
+  productsQuery,
+  servicePageBySlugQuery,
+  siteSettingsQuery,
+  testimonialsQuery,
+} from './queries'
 
 type SeoPayload = {
   metaTitle?: string
@@ -18,6 +29,33 @@ export type HomepageCmsContent = {
   remodelingBody?: string
   emergencyHeading?: string
   emergencyBody?: string
+  seo?: SeoPayload
+}
+
+export type AboutPageCmsContent = {
+  heroEyebrow?: string
+  heroHeading?: string
+  heroBody?: string
+  veteranBadgeLabel?: string
+  storyCardHeading?: string
+  storyCardBodyPrimary?: string
+  storyCardBodySecondary?: string
+  valuesCardHeading?: string
+  valuesList?: string[]
+  coverageHeading?: string
+  coverageBody?: string
+  seo?: SeoPayload
+}
+
+export type ContactPageCmsContent = {
+  heroEyebrow?: string
+  heroHeading?: string
+  heroBody?: string
+  veteranBadgeLabel?: string
+  contactCardHeading?: string
+  contactCardIntro?: string
+  facebookLabel?: string
+  warrantyNote?: string
   seo?: SeoPayload
 }
 
@@ -41,6 +79,9 @@ export type SiteSettingsCmsContent = {
   address?: string
   hours?: string
   serviceArea?: string
+  facebookUrl?: string
+  instagramUrl?: string
+  footerSummary?: string
   seoDefault?: SeoPayload
 }
 
@@ -60,6 +101,41 @@ export type GalleryCmsItem = {
   location?: string
   serviceSlugs?: string[]
   imageUrl?: string
+}
+
+export type ProductCmsItem = {
+  title?: string
+  slug?: string
+  category?: string
+  sourceNumber?: number
+  width?: string
+  length?: string
+  height?: string
+  roofStyle?: string
+  basePriceLabel?: string
+  shortDescription?: string
+  description?: string
+  imageAlt?: string
+  imageUrl?: string
+  sourcePath?: string
+  highlights?: string[]
+  startingPrice?: number
+  financingAvailable?: boolean
+  rtoAvailable?: boolean
+}
+
+export type MerchantFeedProductCmsItem = {
+  title?: string
+  slug?: string
+  category?: string
+  shortDescription?: string
+  description?: string
+  imageAlt?: string
+  imageUrl?: string
+  sourcePath?: string
+  feedPrice?: number
+  currency?: string
+  availability?: string
 }
 
 type SanityQueryResponse<T> = {
@@ -117,6 +193,24 @@ export async function getHomepageCmsContent(): Promise<HomepageCmsContent | null
   }
 }
 
+export async function getAboutPageCmsContent(): Promise<AboutPageCmsContent | null> {
+  try {
+    return await runSanityQuery<AboutPageCmsContent>(aboutPageQuery, {}, ['sanity', 'sanity-about-page'])
+  } catch (error) {
+    console.warn('Sanity about page fetch failed:', error)
+    return null
+  }
+}
+
+export async function getContactPageCmsContent(): Promise<ContactPageCmsContent | null> {
+  try {
+    return await runSanityQuery<ContactPageCmsContent>(contactPageQuery, {}, ['sanity', 'sanity-contact-page'])
+  } catch (error) {
+    console.warn('Sanity contact page fetch failed:', error)
+    return null
+  }
+}
+
 export async function getServiceCmsContent(slug: string): Promise<ServiceCmsContent | null> {
   try {
     return await runSanityQuery<ServiceCmsContent>(
@@ -153,6 +247,41 @@ export async function getGalleryCmsContent(): Promise<GalleryCmsItem[] | null> {
     return await runSanityQuery<GalleryCmsItem[]>(galleryItemsQuery, {}, ['sanity', 'sanity-gallery'])
   } catch (error) {
     console.warn('Sanity gallery fetch failed:', error)
+    return null
+  }
+}
+
+export async function getProductsCmsContent(): Promise<ProductCmsItem[] | null> {
+  try {
+    return await runSanityQuery<ProductCmsItem[]>(productsQuery, {}, ['sanity', 'sanity-products'])
+  } catch (error) {
+    console.warn('Sanity products fetch failed:', error)
+    return null
+  }
+}
+
+export async function getProductBySlugCmsContent(slug: string): Promise<ProductCmsItem | null> {
+  try {
+    return await runSanityQuery<ProductCmsItem>(
+      productBySlugQuery,
+      { slug },
+      ['sanity', 'sanity-products', `sanity-product-${slug}`],
+    )
+  } catch (error) {
+    console.warn(`Sanity product fetch failed for ${slug}:`, error)
+    return null
+  }
+}
+
+export async function getMerchantFeedProductsCmsContent(): Promise<MerchantFeedProductCmsItem[] | null> {
+  try {
+    return await runSanityQuery<MerchantFeedProductCmsItem[]>(
+      merchantFeedProductsQuery,
+      {},
+      ['sanity', 'sanity-products', 'sanity-merchant-feed'],
+    )
+  } catch (error) {
+    console.warn('Sanity merchant feed fetch failed:', error)
     return null
   }
 }
