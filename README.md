@@ -1,24 +1,23 @@
-# Hardmix Concrete Website
+# Milestone Structures Website (Next.js + Sanity)
 
-A modern, conversion-focused website for Hardmix Concrete built with Next.js 14, TypeScript, and Tailwind CSS.
+Production website build for **Milestone Structures** (Cibirix client), focused on quote-first metal building sales with editable CMS content in **Sanity Studio**.
 
-## Features
+This project includes:
+- Next.js frontend (`/`)
+- Sanity Studio (`/studio-test`)
+- Sanity-powered homepage, products, about, contact, and site settings
+- Merchant feed endpoint (`/merchant-feed.xml`) for Google/Meta catalog workflows
 
-- 5 fully responsive pages (Home, Services, Service Areas, Contact, About)
-- Mobile-first design with clean, professional UI
-- Clear calls-to-action throughout
-- Contact form for estimate requests
-- SEO-optimized structure
-- Fast loading performance
-- Modern component architecture
+## What This Site Does
 
-## Pages
-
-1. **Homepage** - Hero section, services overview, trust indicators, and CTAs
-2. **Services** - Detailed service offerings with features and process overview
-3. **Service Areas** - Interactive service area display covering 5 states
-4. **Contact** - Full contact form for estimate requests with contact information
-5. **About** - Company overview, values, and differentiators
+- Presents Milestone Structures products (quote-first, not direct checkout)
+- Supports editable CMS content for:
+  - Homepage
+  - Products
+  - About page
+  - Contact page
+  - Site settings (footer/contact/socials/default SEO)
+- Generates a merchant feed from Sanity products that are explicitly marked for feed inclusion
 
 ## Tech Stack
 
@@ -26,133 +25,161 @@ A modern, conversion-focused website for Hardmix Concrete built with Next.js 14,
 - React 18
 - TypeScript
 - Tailwind CSS
-- React Icons
+- Sanity Studio v3
+- GROQ
 
-## Getting Started
+## Project Structure
+
+```text
+milestone/
+├── src/                         # Next.js frontend
+│   ├── app/                     # App Router pages + routes
+│   ├── components/              # UI components
+│   ├── data/                    # Local fallback content/data
+│   └── lib/
+│       ├── sanity/              # Sanity client, queries, content fetchers
+│       └── siteSettings.ts      # Sanity->fallback site settings resolver
+├── public/                      # Brand assets + product images
+├── scripts/                     # Seed generation scripts
+├── studio-test/                 # Sanity Studio project
+├── sanity-seed-milestone.json   # Generated seed payload
+└── README.md
+```
+
+## Local Development
 
 ### Prerequisites
 
-- Node.js 18+ installed
-- npm or yarn package manager
+- Node.js 18+
+- npm
+- Sanity account with access to project `qj0b1rli`
 
-### Installation
+### Install
 
-1. Navigate to the project directory:
-```bash
-cd hardmix-concrete-site
-```
-
-2. Install dependencies:
 ```bash
 npm install
+npm install --prefix studio-test
 ```
 
-3. Run the development server:
+### Environment
+
+Copy `.env.example` to `.env.local` and confirm values:
+
 ```bash
-npm run dev
+cp .env.example .env.local
 ```
 
-4. Open [http://localhost:3000](http://localhost:3000) in your browser
+Key variables:
+- `NEXT_PUBLIC_SANITY_PROJECT_ID`
+- `NEXT_PUBLIC_SANITY_DATASET`
+- `NEXT_PUBLIC_SITE_URL` (must be the live domain in production)
+- `SANITY_API_READ_TOKEN` (optional; needed for private dataset/drafts)
 
-### Building for Production
+### Run Site + Studio
+
+```bash
+npm run dev:all
+```
+
+Local URLs:
+- Site: [http://localhost:3000](http://localhost:3000)
+- Studio: [http://localhost:3333](http://localhost:3333)
+
+## Sanity CMS Content
+
+### Editable documents (current setup)
+
+- `Homepage`
+- `Product` (catalog + product pages + feed fields)
+- `About Page`
+- `Contact Page`
+- `Site Settings`
+
+### Product feed readiness (Studio)
+
+Products appear in `/merchant-feed.xml` only when:
+- `Include In Merchant Feed` = `true`
+- `Feed Price` is set
+- product has image (upload or fallback source path)
+- slug/title are present
+
+This is intentional so the team can control what is submitted to Google/Meta.
+
+## Merchant Feed (Google / Meta)
+
+Feed route:
+
+- `GET /merchant-feed.xml`
+
+How it works:
+- Reads products from Sanity
+- Filters to products marked for feed inclusion
+- Outputs XML with product URLs/images/pricing fields
+
+### Important business-model note
+
+Milestone Structures is a **quote-first** business (high-ticket configurable buildings).  
+Meta catalog workflows are usually easier. Google Merchant approval may require stricter pricing/landing-page consistency depending on campaign type.
+
+## Seeding Sanity (Milestone Data)
+
+Generate seed file:
+
+```bash
+npm run sanity:seed:milestone:prepare
+```
+
+Generate + upsert to Sanity dataset (`production`):
+
+```bash
+npm run sanity:seed:milestone:upsert
+```
+
+This seeds:
+- `siteSettings.main`
+- `homepage.main`
+- `aboutPage.main`
+- `contactPage.main`
+- Milestone product documents
+
+## Build & Deployment
+
+### Frontend (Next.js)
 
 ```bash
 npm run build
 npm start
 ```
 
-## Project Structure
+Recommended hosting:
+- Vercel (preferred)
 
-```
-hardmix-concrete-site/
-├── src/
-│   ├── app/
-│   │   ├── about/
-│   │   │   └── page.tsx
-│   │   ├── contact/
-│   │   │   └── page.tsx
-│   │   ├── service-areas/
-│   │   │   └── page.tsx
-│   │   ├── services/
-│   │   │   └── page.tsx
-│   │   ├── globals.css
-│   │   ├── layout.tsx
-│   │   └── page.tsx
-│   └── components/
-│       ├── Header.tsx
-│       ├── Footer.tsx
-│       └── CTASection.tsx
-├── public/
-├── package.json
-├── tailwind.config.js
-├── tsconfig.json
-└── next.config.js
+### Sanity Studio
+
+From `studio-test/`:
+
+```bash
+npx sanity login
+npm run deploy
 ```
 
-## Customization
+This publishes the Studio to a hosted URL so the client can log in and edit content.
 
-### Contact Information
+## Client Editing Workflow (Recommended)
 
-Update contact details in:
-- `src/components/Header.tsx`
-- `src/components/Footer.tsx`
-- `src/app/contact/page.tsx`
+1. Client logs into Sanity Studio
+2. Updates homepage/about/contact/site settings as needed
+3. Adds/edits products
+4. Publishes changes
+5. For feeds: sets `Feed Price` + enables `Include In Merchant Feed`
 
-### Colors
+## Notes
 
-Modify the color scheme in `tailwind.config.js`:
-- Primary: Blue shades
-- Accent: Orange shades
+- This project is **not WordPress/WooCommerce**.
+- Product pages and feeds are powered by **Sanity content + Next.js routes**.
+- `3D Builder` CTA is present in the UI and can be wired to the final destination later.
 
-### Form Submission
+## Ownership
 
-The contact form currently logs to console. To integrate with a backend:
-
-1. Add your API endpoint in `src/app/contact/page.tsx`
-2. Configure email service (SendGrid, AWS SES, etc.)
-3. Or use a form service like Formspree or Netlify Forms
-
-## Deployment
-
-### Vercel (Recommended)
-
-1. Push code to GitHub
-2. Import project to Vercel
-3. Deploy automatically
-
-### Other Platforms
-
-Compatible with:
-- Netlify
-- AWS Amplify
-- Digital Ocean App Platform
-- Any Node.js hosting platform
-
-## Performance Features
-
-- Optimized images with Next.js Image component (can be added)
-- Automatic code splitting
-- Server-side rendering
-- Static generation where applicable
-- Lazy loading of components
-
-## Browser Support
-
-- Chrome (latest)
-- Firefox (latest)
-- Safari (latest)
-- Edge (latest)
-- Mobile browsers (iOS Safari, Chrome Mobile)
-
-## License
-
-Proprietary - Built for Hardmix Concrete by Cibirix
-
-## Support
-
-For questions or modifications, contact the development team.
-
----
-
-Built with care by Cibirix - Full-Service Digital Agency
+Built and maintained by **Cibirix** for **Milestone Structures**.
 
