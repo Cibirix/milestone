@@ -3,34 +3,45 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "dev:site": "next dev",
+    "dev": "sh -c 'for p in $(lsof -ti tcp:3000 -sTCP:LISTEN); do kill -9 \"$p\"; done >/dev/null 2>&1 || true; rm -rf .next; next dev -p 3000'",
+    "dev:fast": "sh -c 'for p in $(lsof -ti tcp:3000 -sTCP:LISTEN); do kill -9 \"$p\"; done >/dev/null 2>&1 || true; rm -rf .next; next dev -p 3000'",
+    "dev:site": "npm run dev",
     "dev:studio": "npm run dev --prefix studio-test",
     "dev:all": "concurrently -n site,studio -c blue,magenta \"npm run dev:site\" \"npm run dev:studio\"",
     "sanity:seed:prepare": "tsx scripts/generate-sanity-seed.ts",
     "sanity:seed:upsert": "npm run sanity:seed:prepare && cd studio-test && npx sanity documents create ../sanity-seed.json --replace --dataset production",
     "sanity:seed:milestone:prepare": "tsx scripts/generate-milestone-sanity-seed.ts",
     "sanity:seed:milestone:upsert": "npm run sanity:seed:milestone:prepare && cd studio-test && npx sanity documents create ../sanity-seed-milestone.json --replace --dataset production",
+    "sanity:products:assign-stock": "cd studio-test && npx sanity exec scripts/assign-stock-numbers.ts --with-user-token",
+    "sanity:page:financing:upsert": "cd studio-test && npx sanity exec scripts/upsert-financing-page.ts --with-user-token",
+    "sanity:seo:upsert": "cd studio-test && npx sanity exec scripts/upsert-seo-fields.ts --with-user-token",
+    "sanity:site-settings:3d-builder": "cd studio-test && npx sanity exec scripts/upsert-site-settings-3d-builder.ts --with-user-token",
     "build": "next build",
     "build:static": "STATIC_EXPORT=true NEXT_PUBLIC_BASE_PATH=test next build && node scripts/fix-image-paths.js",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "verify": "npm run build",
+    "verify:smoke": "npm run build && sh ./scripts/smoke-routes.sh"
   },
   "dependencies": {
+    "@tailwindcss/postcss": "^4.2.1",
     "groq": "^5.9.0",
     "next": "14.0.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-icons": "^4.12.0"
+    "react-icons": "^4.12.0",
+    "react-simple-maps": "^3.0.0",
+    "us-atlas": "^3.0.1"
   },
   "devDependencies": {
     "@types/node": "^20.10.5",
     "@types/react": "^18.2.45",
     "@types/react-dom": "^18.2.18",
+    "@types/react-simple-maps": "^3.0.6",
     "autoprefixer": "^10.4.16",
     "concurrently": "^9.2.1",
     "postcss": "^8.4.32",
-    "tailwindcss": "^3.3.6",
+    "tailwindcss": "^4.2.1",
     "tsx": "^4.21.0",
     "typescript": "^5.3.3"
   }

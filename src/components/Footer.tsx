@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import { FiMail, FiMapPin, FiPhone } from 'react-icons/fi'
+import { FiMail, FiMapPin, FiPhone, FiShield, FiTool } from 'react-icons/fi'
 import { FaFacebookF, FaInstagram } from 'react-icons/fa'
 
 type FooterProps = {
@@ -22,60 +22,132 @@ type FooterProps = {
   }
 }
 
+const productLinks = [
+  { label: 'All Products', href: '/products' },
+  { label: 'Gallery', href: '/gallery' },
+  { label: 'Financing', href: '/rto-financing' },
+  { label: 'About Us', href: '/about' },
+  { label: 'Contact', href: '/contact' },
+]
+
 const Footer = ({ siteInfo }: FooterProps) => {
   const currentYear = new Date().getFullYear()
 
   return (
-    <footer className="bg-charcoal-950 text-slate-200">
-      <div className="container-custom py-14">
-        <div className="grid grid-cols-1 gap-10 lg:grid-cols-4">
+    <footer className="relative overflow-hidden bg-[#101922] text-slate-100">
+      <div className="absolute inset-0 bg-grid-pattern opacity-[0.03]" />
+      
+      {/* Main footer content */}
+      <div className="container-custom relative z-10 py-12">
+        <div className="grid gap-8 lg:grid-cols-[1.25fr_0.8fr_0.95fr_1fr]">
+
+          {/* Brand column */}
           <div>
             <Image
               src="/brand/milestone-logo-transparent.png"
               alt="Milestone Structures"
-              width={230}
-              height={230}
-              className="h-16 w-auto object-contain"
+              width={200}
+              height={60}
+              className="h-10 w-auto object-contain brightness-200"
             />
-            <p className="mt-4 text-sm text-slate-400">
-              {siteInfo.footerSummary || 'Veteran-owned and operated metal building dealer focused on custom structures, transparent service, and dependable delivery.'}
+            <p className="mt-5 max-w-sm text-sm leading-7 text-slate-400">
+              {siteInfo.footerSummary ||
+                'Milestone Structures delivers custom metal buildings with hands-on project guidance and a cleaner path from first inquiry to finished structure.'}
             </p>
-            <div className="mt-4 flex items-center gap-3 text-slate-400">
-              <a href={siteInfo.social.facebook} aria-label="Facebook" className="transition hover:text-white"><FaFacebookF /></a>
-              <a href={siteInfo.social.instagram} aria-label="Instagram" className="transition hover:text-white"><FaInstagram /></a>
+            <div className="mt-5 flex items-center gap-3">
+              <a
+                href={siteInfo.social.facebook}
+                aria-label="Facebook"
+                className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/8 text-slate-400 transition hover:border-rust-700 hover:bg-rust-700 hover:text-white"
+              >
+                <FaFacebookF className="text-xs" />
+              </a>
+              <a
+                href={siteInfo.social.instagram}
+                aria-label="Instagram"
+                className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/8 text-slate-400 transition hover:border-rust-700 hover:bg-rust-700 hover:text-white"
+              >
+                <FaInstagram className="text-xs" />
+              </a>
             </div>
           </div>
 
+          {/* Pages */}
           <div>
-            <h4 className="font-semibold text-white">Quick Links</h4>
-            <div className="mt-4 grid gap-2 text-sm text-slate-400">
-              <Link href="/" className="transition hover:text-white">Home</Link>
-              <Link href="/products" className="transition hover:text-white">Products</Link>
-              <Link href="/gallery" className="transition hover:text-white">Gallery</Link>
-              <Link href="/about" className="transition hover:text-white">About</Link>
-              <Link href="/contact" className="transition hover:text-white">Contact</Link>
+            <h4 className="text-xs font-bold uppercase tracking-[0.2em] text-slate-400">Quick Links</h4>
+            <ul className="mt-5 space-y-3">
+              {productLinks.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className="text-sm text-slate-400 transition hover:text-white"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Why Milestone */}
+          <div>
+            <h4 className="text-xs font-bold uppercase tracking-[0.2em] text-slate-400">Why Milestone</h4>
+            <div className="mt-5 space-y-4">
+              <div className="flex items-start gap-3">
+                <FiShield className="mt-0.5 shrink-0 text-rust-500" />
+                <p className="text-sm leading-6 text-slate-400">Veteran-owned and operated with disciplined customer service.</p>
+              </div>
+              <div className="flex items-start gap-3">
+                <FiTool className="mt-0.5 shrink-0 text-rust-500" />
+                <p className="text-sm leading-6 text-slate-400">Garages, workshops, barns, carports, and commercial structures.</p>
+              </div>
             </div>
           </div>
 
+          {/* Contact */}
           <div>
-            <h4 className="font-semibold text-white">Coverage Area</h4>
-            <p className="mt-4 text-sm text-slate-400">{siteInfo.serviceArea}</p>
-          </div>
-
-          <div>
-            <h4 className="font-semibold text-white">Contact</h4>
-            <div className="mt-4 space-y-3 text-sm text-slate-400">
-              <p className="flex gap-3"><FiPhone className="mt-0.5 text-brand-300" /><a href={`tel:${siteInfo.phoneDigits}`}>{siteInfo.phone}</a></p>
-              <p className="flex gap-3"><FiMail className="mt-0.5 text-brand-300" /><a href={`mailto:${siteInfo.email}`}>{siteInfo.email}</a></p>
-              <p className="flex gap-3"><FiMapPin className="mt-0.5 text-brand-300" /><span>{siteInfo.address}</span></p>
-              <p className="text-xs text-slate-500">Hours: {siteInfo.hours}</p>
-            </div>
+            <h4 className="text-xs font-bold uppercase tracking-[0.2em] text-slate-400">Contact</h4>
+            <ul className="mt-5 space-y-4">
+              <li>
+                <a
+                  href={`tel:${siteInfo.phoneDigits}`}
+                  className="flex items-start gap-3 text-sm text-slate-400 transition hover:text-white"
+                >
+                  <FiPhone className="mt-0.5 shrink-0 text-rust-500" />
+                  {siteInfo.phone}
+                </a>
+              </li>
+              <li>
+                <a
+                  href={`mailto:${siteInfo.email}`}
+                  className="flex items-start gap-3 text-sm text-slate-400 transition hover:text-white"
+                >
+                  <FiMail className="mt-0.5 shrink-0 text-rust-500" />
+                  {siteInfo.email}
+                </a>
+              </li>
+              <li className="flex items-start gap-3 text-sm text-slate-400">
+                <FiMapPin className="mt-0.5 shrink-0 text-rust-500" />
+                <span>{siteInfo.address}</span>
+              </li>
+              <li className="text-sm text-slate-500">Hours: {siteInfo.hours}</li>
+            </ul>
           </div>
         </div>
+      </div>
 
-        <div className="mt-10 flex flex-col gap-2 border-t border-charcoal-800 pt-5 text-xs text-slate-500 sm:flex-row sm:items-center sm:justify-between">
-          <p>© {currentYear} {siteInfo.name}. All rights reserved.</p>
-          <a href="https://www.cibirix.com" target="_blank" rel="noreferrer" className="transition hover:text-slate-300">Website by Cibirix</a>
+      {/* Bottom bar */}
+      <div className="border-t border-white/8">
+        <div className="container-custom flex flex-col gap-3 py-6 sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-xs text-slate-500">
+            © {currentYear} {siteInfo.name}. All rights reserved.
+          </p>
+          <div className="flex gap-4 text-xs text-slate-500">
+            <a href="#top" className="transition hover:text-white">Back to Top</a>
+            <a href="https://www.cibirix.com" target="_blank" rel="noreferrer" className="transition hover:text-white">
+              Website by Cibirix
+            </a>
+          </div>
         </div>
       </div>
     </footer>

@@ -6,6 +6,7 @@ export type ProductCategory =
 
 export type Product = {
   sourceNumber?: number
+  stockNumber?: string
   slug: string
   name: string
   category: ProductCategory

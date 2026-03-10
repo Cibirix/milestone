@@ -10,11 +10,8 @@ export const homepageType = defineType({
     defineField({ name: 'heroSubheadline', title: 'Hero Subheadline', type: 'text', rows: 3 }),
     defineField({ name: 'localIntroHeading', title: 'Story Section Heading', type: 'string' }),
     defineField({ name: 'localIntroBody', title: 'Story Section Body', type: 'text', rows: 4 }),
-    defineField({ name: 'trustedHeading', title: 'Optional Badge Section Heading', type: 'string' }),
     defineField({ name: 'remodelingHeading', title: 'Featured Products Heading', type: 'string' }),
     defineField({ name: 'remodelingBody', title: 'Featured Products Intro', type: 'text', rows: 3 }),
-    defineField({ name: 'emergencyHeading', title: 'Bottom CTA Heading (Optional)', type: 'string' }),
-    defineField({ name: 'emergencyBody', title: 'Bottom CTA Body (Optional)', type: 'text', rows: 3 }),
     defineField({ name: 'seo', title: 'SEO', type: 'seo' }),
   ],
   preview: {

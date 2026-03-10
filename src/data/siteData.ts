@@ -3,6 +3,7 @@ export const siteInfo = {
   tagline: 'Veteran-owned and operated custom metal buildings with hands-on service from quote to completion',
   phone: '(855) 789-4395',
   phoneDigits: '18557894395',
+  threeDBuilderUrl: process.env.NEXT_PUBLIC_3D_BUILDER_URL || 'https://milestonestructures.sensei3d.com/',
   email: 'info@milestonestructures.com',
   address: '3311 NC 268, Pilot Mountain, NC 27047',
   hours: 'M-S 8-8PM',
@@ -98,7 +99,8 @@ export const faqs: FaqItem[] = [
   },
   {
     question: 'Do you offer financing or rent-to-own?',
-    answer: 'Financing options are being explored. Rent-to-own programs are not currently offered.',
+    answer:
+      'Financing is available through LightStream and Allegacy for qualified buyers. Visit the Financing page for current application links and details.',
   },
   {
     question: 'Are warranty and insulation options available?',

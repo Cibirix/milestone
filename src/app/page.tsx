@@ -1,10 +1,22 @@
 import { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
-import { FiArrowRight, FiCheckCircle, FiPhone, FiShield } from 'react-icons/fi'
+import {
+  FiArrowRight,
+  FiCheckCircle,
+  FiCompass,
+  FiDollarSign,
+  FiMapPin,
+  FiShield,
+  FiTool,
+  FiTruck,
+} from 'react-icons/fi'
+import CategoryIcon from '@/components/CategoryIcon'
 import LeadForm from '@/components/LeadForm'
-import { products } from '@/data/productData'
+import ModelCard from '@/components/ModelCard'
+import { getProductBySlug, products } from '@/data/productData'
 import { homepageSeo } from '@/data/siteData'
+import { getCategoryInfoByLabel } from '@/lib/productCategories'
 import { getHomepageCmsContent, getProductsCmsContent, getSiteSettingsCmsContent } from '@/lib/sanity/content'
 import { resolveSiteInfo } from '@/lib/siteSettings'
 
@@ -24,227 +36,230 @@ const HomePage = async () => {
   const siteSettings = await getSiteSettingsCmsContent()
   const resolvedSiteInfo = resolveSiteInfo(siteSettings)
   const cmsProducts = (await getProductsCmsContent()) || []
-  const heroHeadline = homepage?.heroHeadline || 'Custom Metal Buildings Built Around Your Goals'
+
+  const heroHeadline = homepage?.heroHeadline || 'Precision Steel, Veteran Integrity.'
   const heroSubheadline =
     homepage?.heroSubheadline ||
-    'From garages and workshops to agricultural and commercial structures, Milestone Structures delivers configurable metal buildings with veteran-owned service every step of the way.'
-  const localIntroHeading = homepage?.localIntroHeading || 'Veteran Discipline. Family Values. Built to Last.'
+    'Custom metal buildings engineered for your home or business. Delivered and installed with the discipline and care of veteran-led service.'
+  const localIntroHeading = homepage?.localIntroHeading || 'Built Different. Backed by Veterans.'
   const localIntroBody =
     homepage?.localIntroBody ||
-    'After serving in the Marine Corps, Josh and his wife built Milestone Structures on honesty, trustworthiness, and extreme dedication to every customer. We guide you from first call to completed project so your building is delivered exactly how you envisioned it.'
-  const featuredHeading = homepage?.remodelingHeading || 'Featured Products'
+    'Milestone Structures is a veteran-owned and operated metal building dealer focused on straight talk, clean product guidance, and fully customizable steel structures for any need.'
+  const featuredHeading = homepage?.remodelingHeading || 'Explore Our Building Categories'
   const featuredBody =
     homepage?.remodelingBody ||
-    'Browse current Milestone Structures offerings. Every building can be customized for your exact needs.'
-  const categoryCopy: Record<string, string> = {
-    Garages: 'Secure, customizable garage buildings for vehicles, tools, boats, and extra storage.',
-    Workshops: 'Work-ready utility and premium workshop layouts with flexible door and access options.',
-    'Agricultural Buildings': 'Open-span and high-clearance agricultural buildings for equipment, hay, and farm operations.',
-    Carports: 'Durable vertical-roof carports and covers for RVs, boats, and daily weather protection.',
-  }
+    'From covered parking to full commercial workshops — every structure is configurable to your exact dimensions, roof style, and site requirements.'
+
   const catalogProducts = cmsProducts.filter((product) => product.slug && product.title).length
     ? cmsProducts
-      .filter((product) => product.slug && product.title)
-      .map((product) => ({
-        name: product.title as string,
-        category: product.category || 'Other',
-        image: product.imageUrl || product.sourcePath || '',
+        .filter((product) => product.slug && product.title)
+        .map((product) => {
+          const fallbackProduct = product.slug ? getProductBySlug(product.slug as string) : undefined
+          return {
+            slug: product.slug as string,
+            name: product.title as string,
+            category: product.category || 'Other',
+            image: product.imageUrl || product.sourcePath || fallbackProduct?.image || '',
+            stockNumber: product.stockNumber,
+            description: product.shortDescription || product.description || '',
+            width: product.width || fallbackProduct?.width,
+            length: product.length || fallbackProduct?.length,
+            height: product.height || fallbackProduct?.height,
+            startingPrice: product.startingPrice,
+            basePriceLabel: product.basePriceLabel || fallbackProduct?.basePriceLabel,
+          }
+        })
+    : products.map((product, index) => ({
+        slug: product.slug,
+        name: product.name,
+        category: product.category,
+        image: product.image,
+        stockNumber: product.stockNumber || `MS#${index + 1}`,
+        description: product.description,
+        width: product.width,
+        length: product.length,
+        height: product.height,
+        startingPrice: undefined,
+        basePriceLabel: product.basePriceLabel,
       }))
-    : products.map((product) => ({
-      name: product.name,
-      category: product.category,
-      image: product.image,
-    }))
 
   const categoryShowcases = Array.from(new Set(catalogProducts.map((product) => product.category)))
     .map((category) => {
       const categoryProducts = catalogProducts.filter((product) => product.category === category)
+      const categoryInfo = getCategoryInfoByLabel(category)
       return {
         category,
-        anchor: `category-${category.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`,
+        categorySlug: categoryInfo.slug,
+        menuLabel: categoryInfo.menuLabel,
         image: categoryProducts[0]?.image,
-        productCount: categoryProducts.length,
-        sampleNames: categoryProducts.slice(0, 2).map((product) => product.name),
-        description: categoryCopy[category] || 'Custom metal building options tailored to your needs.',
+        description: categoryInfo.summary,
       }
     })
-    .filter((item) => item.productCount > 0)
-  const heroStars = Array.from({ length: 42 }, (_, index) => {
-    const columns = 7
-    const row = Math.floor(index / columns)
-    const column = index % columns
-    return {
-      key: `star-${row}-${column}`,
-      left: `${7 + column * 12 + (row % 2 ? 4 : 0)}%`,
-      top: `${9 + row * 12}%`,
-      size: row % 3 === 0 ? 12 : row % 2 === 0 ? 10 : 11,
-      opacity: row % 2 === 0 ? 0.34 : 0.22,
-    }
-  })
+    .filter((item) => item.image)
+
+  const popularProducts = catalogProducts.slice(0, 6)
+
+  const trustPoints = [
+    {
+      title: 'Veteran-led service',
+      body: 'Clear communication and hands-on project guidance throughout the process.',
+      icon: FiShield,
+    },
+    {
+      title: 'Fully customizable',
+      body: 'Garages, workshops, barns, carports, and commercial structures.',
+      icon: FiCompass,
+    },
+    {
+      title: 'Nationwide Delivery',
+      body: 'We coordinate logistics from the factory directly to your site.',
+      icon: FiTruck,
+    },
+    {
+      title: 'Financing options',
+      body: 'Flexible rent-to-own and financing paths available.',
+      icon: FiDollarSign,
+    },
+    {
+      title: 'Multi-state coverage',
+      body: 'Serving the Mid-Atlantic, Southeast, South-Central, and beyond.',
+      icon: FiMapPin,
+    },
+  ]
 
   return (
     <>
-      <section className="relative overflow-hidden bg-[#07142b] text-white">
-        <div className="pointer-events-none absolute inset-0">
-          <div className="absolute inset-0 bg-[linear-gradient(90deg,_#0a1d3f_0%,_#07142b_55%,_#0b1220_100%)]" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_16%,_rgba(61,113,203,0.35),_transparent_40%),radial-gradient(circle_at_82%_88%,_rgba(166,54,31,0.28),_transparent_40%),radial-gradient(circle_at_44%_58%,_rgba(9,25,54,0.36),_transparent_58%)]" />
-          <div
-            className="absolute inset-0"
-            style={{
-              opacity: 0.2,
-              backgroundImage:
-                'repeating-linear-gradient(180deg, rgba(182,68,44,0.34) 0px, rgba(182,68,44,0.34) 10px, rgba(255,255,255,0.04) 10px, rgba(255,255,255,0.04) 22px)',
-            }}
+      {/* ── HERO ── full-bleed image with lighter overlay */}
+      <section className="relative flex min-h-[92vh] items-center overflow-hidden">
+        {/* Background image */}
+        <div className="absolute inset-0">
+          <Image
+            src="/hero-realistic-q72.jpg"
+            alt="Milestone Structures steel building"
+            fill
+            className="object-cover object-center"
+            priority
+            unoptimized
           />
-          <div
-            className="absolute left-0 top-0 h-[68%] w-[56%]"
-            style={{
-              background:
-                'linear-gradient(135deg, rgba(9,31,70,0.7) 0%, rgba(8,24,55,0.46) 60%, rgba(8,24,55,0.05) 100%)',
-              WebkitMaskImage:
-                'linear-gradient(to right, black 0%, black 76%, transparent 100%), linear-gradient(to bottom, black 0%, black 84%, transparent 100%)',
-              maskImage:
-                'linear-gradient(to right, black 0%, black 76%, transparent 100%), linear-gradient(to bottom, black 0%, black 84%, transparent 100%)',
-              WebkitMaskComposite: 'source-in',
-              maskComposite: 'intersect',
-            }}
-          />
-          <div
-            className="absolute left-0 top-0 h-[68%] w-[56%]"
-            style={{
-              background:
-                'radial-gradient(circle at 24% 20%, rgba(67,122,214,0.22), transparent 56%)',
-              WebkitMaskImage:
-                'linear-gradient(to right, black 0%, black 78%, transparent 100%), linear-gradient(to bottom, black 0%, black 86%, transparent 100%)',
-              maskImage:
-                'linear-gradient(to right, black 0%, black 78%, transparent 100%), linear-gradient(to bottom, black 0%, black 86%, transparent 100%)',
-              WebkitMaskComposite: 'source-in',
-              maskComposite: 'intersect',
-            }}
-          />
-          <div
-            className="absolute left-0 top-0 h-[68%] w-[56%] overflow-hidden"
-            style={{
-              WebkitMaskImage:
-                'linear-gradient(to right, black 0%, black 82%, transparent 100%), linear-gradient(to bottom, black 0%, black 88%, transparent 100%)',
-              maskImage:
-                'linear-gradient(to right, black 0%, black 82%, transparent 100%), linear-gradient(to bottom, black 0%, black 88%, transparent 100%)',
-              WebkitMaskComposite: 'source-in',
-              maskComposite: 'intersect',
-            }}
-          >
-            {heroStars.map((star) => (
-              <span
-                key={star.key}
-                className="absolute text-white"
-                style={{
-                  left: star.left,
-                  top: star.top,
-                  fontSize: `${star.size}px`,
-                  opacity: star.opacity,
-                  textShadow: '0 0 10px rgba(255,255,255,0.18)',
-                }}
+          <div className="absolute inset-0 bg-gradient-to-r from-[#101922]/62 via-[#101922]/36 to-[#101922]/12" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#101922]/34 via-[#101922]/8 to-transparent" />
+        </div>
+
+        {/* Content */}
+        <div className="container-custom relative z-10 py-24 md:py-32">
+          <div className="max-w-3xl">
+            <h1 className="font-display text-5xl font-black leading-[1.05] tracking-tight text-white md:text-6xl lg:text-[5.2rem]">
+              {heroHeadline}
+            </h1>
+
+            <p className="mt-6 max-w-xl text-lg leading-8 text-white/85">
+              {heroSubheadline}
+            </p>
+
+            <div className="mt-8 flex flex-wrap gap-4">
+              <a
+                href={resolvedSiteInfo.threeDBuilderUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="group inline-flex items-center gap-2 rounded-xl bg-rust-700 px-8 py-4 text-sm font-bold text-white shadow-[0_12px_32px_-12px_rgba(185,28,28,0.6)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-rust-800 hover:shadow-[0_20px_40px_-12px_rgba(185,28,28,0.5)]"
               >
-                ★
-              </span>
+                <FiTool className="transition-transform group-hover:rotate-12" />
+                Launch 3D Builder
+                <FiArrowRight className="transition-transform group-hover:translate-x-0.5" />
+              </a>
+            </div>
+
+            {/* Trust items */}
+            <div className="mt-8 flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:gap-x-6 sm:gap-y-2">
+              {['Nationwide Delivery', 'Certified Wind & Snow Ratings', 'No Hidden Fees'].map((item) => (
+                <div key={item} className="flex items-center gap-2">
+                  <FiCheckCircle className="shrink-0 text-rust-400 text-sm" />
+                  <span className="text-sm font-medium text-white/75">{item}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── TRUST CARDS ── */}
+      <section className="bg-white py-14">
+        <div className="container-custom">
+          <div className="mx-auto max-w-3xl text-center">
+            <span className="inline-block rounded-full bg-rust-50 px-4 py-1.5 text-xs font-bold uppercase tracking-[0.22em] text-rust-700 ring-1 ring-rust-200/80">
+              What Milestone Delivers
+            </span>
+            <h2 className="mt-4 font-display text-3xl font-black leading-tight text-charcoal-950 md:text-4xl">
+              {localIntroHeading}
+            </h2>
+            <p className="mt-3 text-base leading-7 text-charcoal-600">{localIntroBody}</p>
+          </div>
+
+          <div className="mt-12 grid gap-5 sm:grid-cols-2 xl:grid-cols-5">
+            {trustPoints.map((card) => (
+              <div
+                key={card.title}
+                className="card-hover group rounded-2xl border border-slate-200 bg-white p-6 transition duration-300 hover:border-rust-200"
+              >
+                <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-slate-50 text-charcoal-900 transition-colors group-hover:bg-rust-50 group-hover:text-rust-700">
+                  <card.icon className="text-lg" />
+                </span>
+                <h3 className="mt-4 text-base font-bold leading-tight text-charcoal-950">{card.title}</h3>
+                <p className="mt-2 text-sm leading-6 text-charcoal-500">{card.body}</p>
+              </div>
             ))}
           </div>
-          <div className="absolute inset-0 bg-[linear-gradient(90deg,_rgba(7,20,43,0.48)_0%,_rgba(7,20,43,0.38)_34%,_rgba(7,20,43,0.3)_62%,_rgba(7,20,43,0.32)_100%)]" />
-          <div
-            className="absolute inset-0"
-            style={{
-              background:
-                'radial-gradient(ellipse at 58% 48%, rgba(3,8,16,0.24) 0%, rgba(3,8,16,0.12) 18%, rgba(3,8,16,0) 34%)',
-            }}
-          />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_transparent_42%,_rgba(3,8,18,0.22)_100%)]" />
-        </div>
-        <div className="container-custom relative z-10 py-16 lg:py-24">
-          <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[1.15fr_0.85fr]">
-            <div>
-              <div className="inline-flex items-center gap-2 rounded-full border border-emerald-300/30 bg-emerald-500/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-emerald-100">
-                <FiShield className="text-sm" />
-                Veteran-Owned &amp; Operated
-              </div>
-              <h1 className="mt-4 font-display text-4xl leading-tight md:text-5xl lg:text-6xl">{heroHeadline}</h1>
-              <p className="mt-4 max-w-2xl text-lg text-slate-200">{heroSubheadline}</p>
-              <div className="mt-8 flex flex-wrap gap-3">
-                <button type="button" className="rounded-lg bg-rust-600 px-6 py-3 text-base font-semibold text-white shadow-lg shadow-rust-900/30 transition hover:bg-rust-700">Launch 3D Builder</button>
-                <Link href="/products" className="btn-primary">Browse Products <FiArrowRight className="ml-2" /></Link>
-              </div>
-              <div className="mt-8 grid max-w-2xl grid-cols-1 gap-3 sm:grid-cols-3">
-                <div className="rounded-xl border border-emerald-200/20 bg-emerald-500/10 p-4">
-                  <p className="text-xl font-bold">Veteran Owned</p>
-                  <p className="text-sm text-slate-200">Disciplined service &amp; direct communication</p>
-                </div>
-                <div className="rounded-xl border border-white/20 bg-white/10 p-4">
-                  <p className="text-xl font-bold">Custom Built</p>
-                  <p className="text-sm text-slate-200">Garages, workshops, ag buildings &amp; covers</p>
-                </div>
-                <div className="rounded-xl border border-tan-200/20 bg-tan-200/10 p-4">
-                  <p className="text-xl font-bold">Financing Help</p>
-                  <p className="text-sm text-slate-200">Guidance available while options are finalized</p>
-                </div>
-              </div>
-            </div>
-            <LeadForm variant="dark" phone={resolvedSiteInfo.phone} />
-          </div>
         </div>
       </section>
 
-      <section className="bg-stone-50 py-14">
+      {/* ── CATEGORIES ── */}
+      <section className="bg-slate-50 py-16">
         <div className="container-custom">
-          <div className="rounded-2xl border border-emerald-100 bg-gradient-to-br from-white via-stone-50 to-emerald-50 p-8 shadow-sm">
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-700">Our Story</p>
-            <h2 className="mt-3 font-display text-3xl text-brand-900">{localIntroHeading}</h2>
-            <p className="mt-3 max-w-4xl text-charcoal-700">{localIntroBody}</p>
-            <div className="mt-5 flex flex-wrap gap-5 text-sm text-charcoal-700">
-              <span className="inline-flex items-center gap-2"><FiShield className="text-emerald-700" /> Veteran-owned &amp; operated</span>
-              <span className="inline-flex items-center gap-2"><FiCheckCircle className="text-brand-700" /> Honest project guidance</span>
-              <span className="inline-flex items-center gap-2"><FiPhone className="text-brand-700" /> Direct communication</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-stone-100 py-16">
-        <div className="container-custom">
-          <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+          <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
             <div>
-              <h2 className="font-display text-3xl text-charcoal-900">{featuredHeading}</h2>
-              <p className="mt-2 max-w-2xl text-charcoal-600">{featuredBody}</p>
+              <span className="inline-block rounded-full bg-white px-4 py-2 text-xs font-bold uppercase tracking-[0.22em] text-charcoal-600 ring-1 ring-slate-200">
+                Building Categories
+              </span>
+              <h2 className="mt-4 font-display text-[2rem] font-black leading-tight text-charcoal-950 md:text-[2.6rem]">
+                {featuredHeading}
+              </h2>
+              <p className="mt-3 max-w-xl text-base leading-7 text-charcoal-600">{featuredBody}</p>
             </div>
-            <Link href="/products" className="inline-flex items-center gap-2 font-semibold text-brand-700">View All Products <FiArrowRight /></Link>
+            <Link
+              href="/products"
+              className="inline-flex shrink-0 items-center gap-2 text-sm font-bold text-rust-700 transition hover:text-rust-800"
+            >
+              View All Products <FiArrowRight />
+            </Link>
           </div>
-          <div className="space-y-5">
-            {categoryShowcases.map((item) => (
+
+          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {categoryShowcases.map((item, index) => (
               <Link
                 key={item.category}
-                href={`/products#${item.anchor}`}
-                className="group block overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg"
+                href={`/products/category/${item.categorySlug}`}
+                className={`group relative overflow-hidden rounded-3xl bg-charcoal-900 shadow-2xl transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_-12px_rgba(0,0,0,0.4)] ${index % 2 === 0 ? 'lg:mt-0' : 'lg:mt-8'}`}
+                style={{ aspectRatio: '4/5' }}
               >
-                <div className="grid grid-cols-1 md:grid-cols-[0.95fr_1.05fr]">
-                  <div className="flex flex-col justify-center bg-gradient-to-br from-white to-stone-50 p-6 md:p-8">
-                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-700">
-                      {item.productCount} {item.productCount === 1 ? 'Model' : 'Models'} Available
-                    </p>
-                    <h3 className="mt-2 font-display text-2xl text-charcoal-900 md:text-3xl">{item.category}</h3>
-                    <p className="mt-3 text-charcoal-600">{item.description}</p>
-                    <p className="mt-3 text-sm text-charcoal-500">
-                      {item.productCount} current {item.productCount === 1 ? 'model' : 'models'} • {item.sampleNames.join(' • ')}
-                    </p>
-                    <span className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-brand-700">
-                      Explore {item.category} <FiArrowRight className="transition group-hover:translate-x-1" />
-                    </span>
+                <Image
+                  src={item.image!}
+                  alt={item.menuLabel}
+                  fill
+                  className="object-cover opacity-60 transition duration-700 group-hover:scale-110 group-hover:opacity-80"
+                  loading="eager"
+                  unoptimized
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#101922] via-transparent to-transparent opacity-90" />
+                
+                <div className="absolute bottom-0 left-0 right-0 p-8">
+                  <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-3 py-1 backdrop-blur-md transition group-hover:bg-white/20">
+                    <CategoryIcon category={item.category} className="h-3.5 w-3.5 text-white" />
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-white">{item.menuLabel}</span>
                   </div>
-                  <div className="relative h-64 bg-slate-100 md:h-full md:min-h-[250px]">
-                    {item.image && (
-                      <>
-                        <Image src={item.image} alt={`${item.category} category image`} fill className="object-cover transition duration-300 group-hover:scale-[1.02]" />
-                        <div className="absolute inset-0 bg-gradient-to-r from-white/55 via-white/10 to-transparent md:from-transparent md:via-transparent md:to-transparent" />
-                      </>
-                    )}
-                  </div>
+                  <p className="line-clamp-2 text-sm leading-relaxed text-slate-300 transition-colors group-hover:text-white">{item.description}</p>
+                  <span className="mt-4 inline-flex items-center gap-2 text-sm font-bold text-rust-400 transition-all group-hover:gap-3 group-hover:text-rust-300">
+                    Explore <FiArrowRight />
+                  </span>
                 </div>
               </Link>
             ))}
@@ -252,33 +267,130 @@ const HomePage = async () => {
         </div>
       </section>
 
-      <section className="bg-charcoal-900 py-16 text-white">
-        <div className="container-custom grid grid-cols-1 gap-6 lg:grid-cols-[0.9fr_1.1fr]">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-tan-200">Warranty & Insulation</p>
-            <h2 className="mt-3 font-display text-3xl">Manufacturer-backed options</h2>
-            <p className="mt-3 text-slate-300">
-              Warranty and insulation details vary by manufacturer. We help you compare options and choose a package that matches your region and use case.
-            </p>
-            <Link href="/contact" className="btn-primary mt-6">Talk With Our Team</Link>
+      {/* ── POPULAR MODELS ── */}
+      <section className="bg-white py-14">
+        <div className="container-custom">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <span className="inline-block rounded-full bg-slate-100 px-3.5 py-1.5 text-xs font-bold uppercase tracking-[0.22em] text-charcoal-600 ring-1 ring-slate-200">
+                Popular Models
+              </span>
+              <h2 className="mt-3 font-display text-3xl font-black leading-tight text-charcoal-950 md:text-4xl">
+                Browse Current Milestone Models
+              </h2>
+              <p className="mt-2 text-sm leading-7 text-charcoal-500">
+                Browse the current lineup, then move into the right product page for details and the next step.
+              </p>
+            </div>
+            <Link
+              href="/products"
+              className="shrink-0 text-sm font-bold text-rust-700 transition hover:text-rust-800 sm:mb-1"
+            >
+              View all →
+            </Link>
           </div>
-          <div className="grid grid-cols-2 gap-4">
-            {products.slice(0, 4).map((item) => (
-              <div key={item.slug} className="relative h-40 overflow-hidden rounded-xl border border-white/15 bg-slate-800">
-                <Image src={item.image} alt={item.name} fill className="object-cover opacity-85" />
-              </div>
+
+          <div className="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+            {popularProducts.map((product) => (
+              <ModelCard
+                key={product.slug}
+                href={`/products/${product.slug}`}
+                title={product.name}
+                imageSrc={product.image}
+                imageAlt={product.name}
+                category={product.category}
+                priceLabel={
+                  typeof product.startingPrice === 'number'
+                    ? `Starting at $${product.startingPrice.toLocaleString()}`
+                    : product.basePriceLabel && product.basePriceLabel.toLowerCase() !== 'n/a'
+                      ? product.basePriceLabel
+                      : 'Call for Quote'
+                }
+              />
             ))}
+          </div>
+
+          <div className="mt-8 text-center">
+            <Link
+              href="/products"
+              className="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-6 py-2.5 text-sm font-bold text-charcoal-700 transition hover:border-charcoal-900 hover:bg-charcoal-900 hover:text-white"
+            >
+              View All Models <FiArrowRight />
+            </Link>
           </div>
         </div>
       </section>
 
-      <section className="bg-stone-50 py-14">
-        <div className="container-custom rounded-2xl border border-tan-200 bg-gradient-to-r from-tan-50 via-white to-emerald-50 p-8 shadow-sm">
-          <h2 className="font-display text-3xl text-charcoal-900">Ready for your next milestone?</h2>
-          <p className="mt-3 max-w-3xl text-charcoal-700">Call {resolvedSiteInfo.phone} or submit the lead form to start your custom building quote. Financing guidance is available, and RTO programs are not currently offered.</p>
-          <div className="mt-5 flex flex-wrap gap-3">
-            <a href={`tel:${resolvedSiteInfo.phoneDigits}`} className="btn-primary">Call {resolvedSiteInfo.phone}</a>
-            <Link href="/contact" className="btn-outline">Request Quote</Link>
+      {/* ── MISSION STRIP ── dark section with red accent */}
+      <section className="relative overflow-hidden bg-[#101922] py-20 md:py-24">
+        <div className="absolute inset-0 bg-grid-pattern opacity-[0.03]" />
+        <div className="container-custom relative z-10">
+          <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
+            <div>
+              <span className="inline-block rounded-full border border-white/15 bg-white/8 px-4 py-2 text-xs font-bold uppercase tracking-[0.22em] text-rust-400">
+                Our Mission
+              </span>
+              <h2 className="mt-5 font-display text-[2rem] font-black leading-tight text-white md:text-[2.6rem]">
+                Built on Integrity. Delivered with Discipline.
+              </h2>
+              <p className="mt-4 text-base leading-8 text-slate-400">
+                Milestone Structures was founded by veterans who wanted to bring the same standard of accountability they
+                carried in service to every customer interaction and every structure delivered.
+              </p>
+              <div className="mt-8 space-y-4">
+                {[
+                  { title: 'Honest pricing', body: 'No hidden fees. The quote you see is what you build around.' },
+                  { title: 'American materials', body: 'We prioritize domestic steel and trusted manufacturing partners.' },
+                  { title: 'Standing behind the work', body: 'Our relationship continues well past the day the truck pulls away.' },
+                ].map((item) => (
+                  <div key={item.title} className="flex gap-4">
+                    <FiCheckCircle className="mt-0.5 shrink-0 text-rust-500" />
+                    <div>
+                      <p className="font-bold text-white">{item.title}</p>
+                      <p className="mt-1 text-sm leading-6 text-slate-400">{item.body}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              {[
+                { value: '15+', label: 'Years of experience' },
+                { value: '50', label: 'States served' },
+                { value: '10k+', label: 'Structures delivered' },
+                { value: '4.9★', label: 'Average customer rating' },
+              ].map((stat) => (
+                <div
+                  key={stat.label}
+                  className="rounded-2xl border border-white/10 bg-white/5 p-6 text-center"
+                >
+                  <p className="font-display text-4xl font-black text-rust-500">{stat.value}</p>
+                  <p className="mt-2 text-xs font-semibold uppercase tracking-wider text-slate-400">{stat.label}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── QUOTE / CONTACT ── */}
+      <section id="quote-form" className="bg-slate-50 py-16">
+        <div className="container-custom">
+          <div className="mx-auto mb-8 max-w-3xl text-center">
+            <span className="inline-block rounded-full bg-white px-4 py-1.5 text-xs font-bold uppercase tracking-[0.22em] text-rust-700 ring-1 ring-rust-100">
+              Start Your Quote
+            </span>
+            <h2 className="mt-4 font-display text-3xl font-black leading-tight text-charcoal-950 md:text-4xl">
+              Tell us what you need and we will follow up fast.
+            </h2>
+            <p className="mt-3 text-base leading-7 text-charcoal-600">
+              One form, one next step. Our team will review your request and contact you with options and pricing guidance.
+            </p>
+          </div>
+
+          <div className="mx-auto max-w-3xl">
+            <LeadForm phone={resolvedSiteInfo.phone} />
           </div>
         </div>
       </section>

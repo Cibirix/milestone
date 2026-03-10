@@ -1,9 +1,33 @@
 import { defineField, defineType } from 'sanity'
+import { SourcePathPreviewInput } from '../../components/SourcePathPreviewInput'
 
 export const productType = defineType({
   name: 'product',
   title: 'Product',
   type: 'document',
+  initialValue: async (params) => {
+    const getClient = (params as { getClient?: (options: { apiVersion: string }) => { fetch: (query: string) => Promise<string[]> } }).getClient
+    if (!getClient) return { stockNumber: 'MS#1' }
+
+    try {
+      const client = getClient({ apiVersion: '2024-10-01' })
+      const stockNumbers = await client.fetch<string[]>(
+        `*[_type == "product" && defined(stockNumber)].stockNumber`,
+      )
+
+      const highest = stockNumbers.reduce((max, value) => {
+        const match = value?.match(/^MS#(\d+)$/)
+        if (!match) return max
+        const parsed = Number(match[1])
+        return Number.isFinite(parsed) && parsed > max ? parsed : max
+      }, 0)
+
+      return { stockNumber: `MS#${highest + 1}` }
+    } catch (error) {
+      console.warn('Unable to auto-generate stock number:', error)
+      return { stockNumber: 'MS#1' }
+    }
+  },
   fieldsets: [
     {
       name: 'merchantFeed',
@@ -54,7 +78,26 @@ export const productType = defineType({
         list: ['Carports', 'Garages', 'Workshops', 'Agricultural Buildings', 'Other'],
       },
     }),
-    defineField({ name: 'sourceNumber', title: 'Source Product Number (Optional)', type: 'number' }),
+    defineField({
+      name: 'stockNumber',
+      title: 'SKU Number',
+      type: 'string',
+      description: 'Use format MS#1, MS#2, MS#3, etc.',
+      validation: (rule) =>
+        rule
+          .required()
+          .regex(/^MS#\d+$/, {
+            name: 'SKU Number',
+            invert: false,
+          })
+          .error('SKU Number is required and must follow the format MS#1, MS#2, etc.'),
+    }),
+    defineField({
+      name: 'sourceNumber',
+      title: 'Legacy Source Number (Optional Reference)',
+      type: 'number',
+      description: 'Legacy reference number from imported spreadsheets.',
+    }),
     defineField({ name: 'width', title: 'Width', type: 'string', description: 'Example: 30 ft' }),
     defineField({ name: 'length', title: 'Length', type: 'string', description: 'Example: 60 ft' }),
     defineField({ name: 'height', title: 'Height', type: 'string', description: 'Example: 12 ft' }),
@@ -74,12 +117,9 @@ export const productType = defineType({
       title: 'Fallback Image Path',
       type: 'string',
       description: 'Optional local/public image path fallback (example: /products/s1.png).',
-    }),
-    defineField({
-      name: 'highlights',
-      title: 'Highlights',
-      type: 'array',
-      of: [{ type: 'string' }],
+      components: {
+        input: SourcePathPreviewInput,
+      },
     }),
     defineField({ name: 'financingAvailable', title: 'Financing Available', type: 'boolean', initialValue: false }),
     defineField({ name: 'rtoAvailable', title: 'RTO Available', type: 'boolean', initialValue: false }),
@@ -133,6 +173,7 @@ export const productType = defineType({
     select: {
       title: 'title',
       subtitle: 'category',
+      stockNumber: 'stockNumber',
       media: 'image',
       includeInFeed: 'includeInFeed',
       feedPrice: 'feedPrice',
@@ -143,6 +184,7 @@ export const productType = defineType({
       const {
         title,
         subtitle,
+        stockNumber,
         media,
         includeInFeed,
         feedPrice,
@@ -151,6 +193,7 @@ export const productType = defineType({
       } = selection as {
         title?: string
         subtitle?: string
+        stockNumber?: string
         media?: unknown
         includeInFeed?: boolean
         feedPrice?: number
@@ -175,7 +218,7 @@ export const productType = defineType({
 
       return {
         title: title || 'Untitled Product',
-        subtitle: [subtitle, status].filter(Boolean).join(' • '),
+        subtitle: [stockNumber, subtitle, status].filter(Boolean).join(' • '),
         media,
       }
     },

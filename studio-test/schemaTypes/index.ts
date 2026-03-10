@@ -1,5 +1,6 @@
 import { aboutPageType } from './documents/aboutPageType'
 import { contactPageType } from './documents/contactPageType'
+import { financingPageType } from './documents/financingPageType'
 import { galleryItemType } from './documents/galleryItemType'
 import { homepageType } from './documents/homepageType'
 import { productType } from './documents/productType'
@@ -12,6 +13,7 @@ import { seoType } from './objects/seoType'
 export const schemaTypes = [
   aboutPageType,
   contactPageType,
+  financingPageType,
   homepageType,
   productType,
   servicePageType,

@@ -39,18 +39,18 @@ const ProductGalleryCarousel = ({ products }: ProductGalleryCarouselProps) => {
 
   return (
     <div className="space-y-6">
-      <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
+      <div className="panel-card overflow-hidden p-4 sm:p-5">
         <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-brand-700">Gallery</p>
-            <p className="mt-1 text-sm text-charcoal-600">Use arrows or thumbnails to browse. Tap/click the main image for the product name.</p>
+            <p className="section-chip bg-brand-50 text-brand-800 ring-1 ring-brand-200/80">Gallery</p>
+            <p className="mt-3 text-sm text-charcoal-600">Use arrows or thumbnails to browse. Tap/click the main image for the product name.</p>
           </div>
           <div className="rounded-full border border-slate-200 bg-stone-50 px-3 py-1 text-xs font-semibold text-charcoal-700">
             {safeIndex + 1} / {products.length}
           </div>
         </div>
 
-        <div className="relative overflow-hidden rounded-2xl border border-slate-200 bg-slate-900 shadow-sm">
+        <div className="relative overflow-hidden rounded-[1.75rem] border border-slate-200 bg-slate-900 shadow-sm">
           <button
             type="button"
             onClick={() => setIsLightboxOpen(true)}
@@ -91,7 +91,7 @@ const ProductGalleryCarousel = ({ products }: ProductGalleryCarouselProps) => {
         </div>
       </div>
 
-      <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+      <div className="panel-card p-4">
         <div className="mb-3 flex items-center justify-between gap-3">
           <p className="text-sm font-semibold text-charcoal-900">Product Thumbnails</p>
           <p className="text-xs text-charcoal-500">Tap/click any image to switch the main view</p>
@@ -105,7 +105,7 @@ const ProductGalleryCarousel = ({ products }: ProductGalleryCarouselProps) => {
                 key={product.slug}
                 type="button"
                 onClick={() => setActiveIndex(index)}
-                className={`group relative w-[190px] shrink-0 overflow-hidden rounded-xl border bg-slate-100 text-left shadow-sm transition ${
+                className={`group relative w-[190px] shrink-0 overflow-hidden rounded-[1.15rem] border bg-slate-100 text-left shadow-sm transition ${
                   active
                     ? 'border-brand-500 ring-2 ring-brand-200'
                     : 'border-slate-200 hover:border-slate-300'

@@ -12,6 +12,7 @@ export function resolveSiteInfo(cms?: SiteSettingsCmsContent | null): ResolvedSi
     tagline: cms?.tagline || siteInfo.tagline,
     phone: cms?.phone || siteInfo.phone,
     phoneDigits: cms?.phoneDigits || siteInfo.phoneDigits,
+    threeDBuilderUrl: cms?.threeDBuilderUrl || siteInfo.threeDBuilderUrl,
     email: cms?.email || siteInfo.email,
     address: cms?.address || siteInfo.address,
     hours: cms?.hours || siteInfo.hours,

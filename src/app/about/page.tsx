@@ -1,7 +1,8 @@
 import { Metadata } from 'next'
-import { FiCheckCircle } from 'react-icons/fi'
+import { FiCheckCircle, FiCompass, FiShield } from 'react-icons/fi'
+import CoverageMap from '@/components/CoverageMap'
+import PageHero from '@/components/PageHero'
 import { getAboutPageCmsContent, getSiteSettingsCmsContent } from '@/lib/sanity/content'
-import { resolveSiteInfo } from '@/lib/siteSettings'
 
 export async function generateMetadata(): Promise<Metadata> {
   const [aboutPage, siteSettings] = await Promise.all([
@@ -16,7 +17,7 @@ export async function generateMetadata(): Promise<Metadata> {
     title: pageSeo?.metaTitle || 'About | Milestone Structures',
     description:
       pageSeo?.metaDescription ||
-      'Learn about the veteran-owned story and mission behind Milestone Structures.',
+      'Learn about Milestone Structures and how we guide custom metal building projects.',
     keywords:
       pageSeo?.keywords?.length
         ? pageSeo.keywords
@@ -34,54 +35,46 @@ export async function generateMetadata(): Promise<Metadata> {
 
 const defaultValuesList = [
   'Fully customizable building options',
-  'Veteran-level discipline and reliability',
+  'Clear communication from quote to delivery',
   'Hands-on project support from start to finish',
-  'Transparent communication through delivery',
+  'Reliable delivery coordination',
 ]
 
 const AboutPage = async () => {
-  const [aboutPage, siteSettings] = await Promise.all([
-    getAboutPageCmsContent(),
-    getSiteSettingsCmsContent(),
-  ])
-  const resolvedSiteInfo = resolveSiteInfo(siteSettings)
+  const aboutPage = await getAboutPageCmsContent()
 
   const heroEyebrow = aboutPage?.heroEyebrow || 'About Milestone'
-  const heroHeading = aboutPage?.heroHeading || 'Built on discipline, honesty, and service'
+  const heroHeading = aboutPage?.heroHeading || 'About Milestone Structures'
   const heroBody =
     aboutPage?.heroBody ||
-    'After serving in the Marine Corps, Josh launched Milestone Structures with his wife to deliver quality custom buildings backed by dependable guidance from first call to final install.'
-  const veteranBadgeLabel = aboutPage?.veteranBadgeLabel || 'Veteran-Owned & Operated'
-  const storyCardHeading = aboutPage?.storyCardHeading || 'Why the name Milestone?'
+    'Learn who we are, what we build, and how we guide your project from first quote to final delivery.'
+  const storyCardHeading = aboutPage?.storyCardHeading || 'Owner Story'
   const storyCardBodyPrimary =
     aboutPage?.storyCardBodyPrimary ||
-    'The business name represents two journeys: a major milestone for our family as we built this company, and a milestone for each customer building something meaningful for their future.'
+    'After serving in the Marine Corps, Josh and his wife launched Milestone Structures to provide straightforward guidance and reliable custom metal building solutions.'
   const storyCardBodySecondary =
     aboutPage?.storyCardBodySecondary ||
-    'Every completed structure is more than a project. It is a step toward your goals, your plans, and your legacy.'
+    'The focus is simple: clear communication, practical recommendations, and helping each customer move from quote to completed structure without confusion.'
   const valuesCardHeading = aboutPage?.valuesCardHeading || 'What sets us apart'
   const valuesList = aboutPage?.valuesList?.length ? aboutPage.valuesList : defaultValuesList
-  const coverageHeading = aboutPage?.coverageHeading || 'Service Coverage'
-  const coverageBody = aboutPage?.coverageBody || resolvedSiteInfo.serviceArea
-
   return (
     <>
-    <section className="bg-brand-900 py-16 text-white">
-      <div className="container-custom">
-        <p className="text-xs font-semibold uppercase tracking-[0.25em] text-tan-200">{heroEyebrow}</p>
-        <h1 className="mt-3 font-display text-4xl md:text-5xl">{heroHeading}</h1>
-        <p className="mt-4 max-w-3xl text-slate-200">
-          {heroBody}
-        </p>
-        <div className="mt-6 inline-flex items-center gap-2 rounded-full border border-emerald-300/30 bg-emerald-500/10 px-4 py-2 text-sm font-semibold text-emerald-100">
-          {veteranBadgeLabel}
-        </div>
-      </div>
-    </section>
+      <PageHero
+        eyebrow={heroEyebrow}
+        title={heroHeading}
+        description={heroBody}
+        compact
+      />
 
-    <section className="bg-stone-50 py-14">
-      <div className="container-custom grid grid-cols-1 gap-10 lg:grid-cols-2">
-        <article className="rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
+    <section className="py-14">
+      <div className="container-custom grid grid-cols-1 gap-10 lg:grid-cols-[1.05fr_0.95fr]">
+        <article className="panel-card p-8 md:p-10">
+          <div className="flex items-center gap-3">
+            <span className="icon-frame border-slate-200 bg-brand-50 text-brand-800 shadow-none">
+              <FiCompass />
+            </span>
+            <p className="section-chip bg-brand-50 text-brand-800 ring-1 ring-brand-200/80">The Story</p>
+          </div>
           <h2 className="font-display text-2xl text-charcoal-900">{storyCardHeading}</h2>
           <p className="mt-4 text-charcoal-700">
             {storyCardBodyPrimary}
@@ -91,21 +84,31 @@ const AboutPage = async () => {
           </p>
         </article>
 
-        <article className="rounded-2xl border border-emerald-100 bg-gradient-to-br from-emerald-50 to-white p-8 shadow-sm">
-          <h2 className="font-display text-2xl text-brand-900">{valuesCardHeading}</h2>
-          <div className="mt-4 space-y-3 text-charcoal-700">
+        <article className="panel-card overflow-hidden">
+          <div className="bg-[linear-gradient(135deg,_#132547_0%,_#102140_52%,_#121519_100%)] p-8 text-white">
+            <div className="flex items-center gap-3">
+              <span className="icon-frame border-white/10 bg-white/10">
+                <FiShield />
+              </span>
+              <p className="section-chip bg-white/10 text-tan-100 ring-1 ring-white/10">Why Customers Choose Us</p>
+            </div>
+            <h2 className="mt-5 font-display text-2xl text-white">{valuesCardHeading}</h2>
+            <p className="mt-3 text-sm leading-7 text-slate-200">A higher-trust experience matters as much as the building configuration itself.</p>
+          </div>
+          <div className="space-y-3 p-8">
             {valuesList.map((item) => (
-              <p key={item} className="flex gap-2"><FiCheckCircle className="mt-1 text-brand-700" /> {item}</p>
+              <p key={item} className="flex gap-3 rounded-[1.1rem] border border-slate-200 bg-slate-50 px-4 py-3 text-charcoal-700">
+                <FiCheckCircle className="mt-1 text-brand-700" /> {item}
+              </p>
             ))}
           </div>
         </article>
       </div>
     </section>
 
-    <section className="bg-stone-100 py-12">
-      <div className="container-custom rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
-        <h2 className="font-display text-2xl text-charcoal-900">{coverageHeading}</h2>
-        <p className="mt-3 text-charcoal-700">{coverageBody}</p>
+    <section className="pb-14">
+      <div className="container-custom">
+        <CoverageMap />
       </div>
     </section>
   </>

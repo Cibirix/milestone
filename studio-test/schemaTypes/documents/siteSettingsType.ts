@@ -9,6 +9,7 @@ export const siteSettingsType = defineType({
     defineField({ name: 'tagline', title: 'Tagline', type: 'string' }),
     defineField({ name: 'phone', title: 'Phone', type: 'string' }),
     defineField({ name: 'phoneDigits', title: 'Phone Digits', type: 'string' }),
+    defineField({ name: 'threeDBuilderUrl', title: '3D Builder URL', type: 'url' }),
     defineField({ name: 'email', title: 'Email', type: 'string' }),
     defineField({ name: 'address', title: 'Address', type: 'string' }),
     defineField({ name: 'hours', title: 'Hours', type: 'string' }),

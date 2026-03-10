@@ -2,6 +2,7 @@ import { sanityConfig } from './client'
 import {
   aboutPageQuery,
   contactPageQuery,
+  financingPageQuery,
   galleryItemsQuery,
   homepageQuery,
   merchantFeedProductsQuery,
@@ -24,11 +25,8 @@ export type HomepageCmsContent = {
   heroSubheadline?: string
   localIntroHeading?: string
   localIntroBody?: string
-  trustedHeading?: string
   remodelingHeading?: string
   remodelingBody?: string
-  emergencyHeading?: string
-  emergencyBody?: string
   seo?: SeoPayload
 }
 
@@ -36,14 +34,11 @@ export type AboutPageCmsContent = {
   heroEyebrow?: string
   heroHeading?: string
   heroBody?: string
-  veteranBadgeLabel?: string
   storyCardHeading?: string
   storyCardBodyPrimary?: string
   storyCardBodySecondary?: string
   valuesCardHeading?: string
   valuesList?: string[]
-  coverageHeading?: string
-  coverageBody?: string
   seo?: SeoPayload
 }
 
@@ -51,11 +46,39 @@ export type ContactPageCmsContent = {
   heroEyebrow?: string
   heroHeading?: string
   heroBody?: string
-  veteranBadgeLabel?: string
   contactCardHeading?: string
   contactCardIntro?: string
   facebookLabel?: string
   warrantyNote?: string
+  financingPartnersHeading?: string
+  financingPartnersIntro?: string
+  lightstreamCtaLabel?: string
+  lightstreamImagePath?: string
+  allegacyCtaLabel?: string
+  allegacyImagePath?: string
+  seo?: SeoPayload
+}
+
+export type FinancingPageCmsContent = {
+  heroEyebrow?: string
+  heroHeading?: string
+  heroBody?: string
+  financingHeading?: string
+  financingBody?: string
+  lightstreamButtonLabel?: string
+  lightstreamButtonUrl?: string
+  allegacyButtonLabel?: string
+  allegacyButtonUrl?: string
+  legacyLightstreamButtonLabel?: string
+  legacyLightstreamButtonUrl?: string
+  legacyAllegacyButtonLabel?: string
+  legacyAllegacyButtonUrl?: string
+  financingHighlights?: string[]
+  applicationFlowHeading?: string
+  applicationFlowSteps?: string[]
+  ctaHeading?: string
+  ctaBody?: string
+  disclaimerText?: string
   seo?: SeoPayload
 }
 
@@ -75,6 +98,7 @@ export type SiteSettingsCmsContent = {
   tagline?: string
   phone?: string
   phoneDigits?: string
+  threeDBuilderUrl?: string
   email?: string
   address?: string
   hours?: string
@@ -107,6 +131,7 @@ export type ProductCmsItem = {
   title?: string
   slug?: string
   category?: string
+  stockNumber?: string
   sourceNumber?: number
   width?: string
   length?: string
@@ -118,7 +143,6 @@ export type ProductCmsItem = {
   imageAlt?: string
   imageUrl?: string
   sourcePath?: string
-  highlights?: string[]
   startingPrice?: number
   financingAvailable?: boolean
   rtoAvailable?: boolean
@@ -207,6 +231,15 @@ export async function getContactPageCmsContent(): Promise<ContactPageCmsContent 
     return await runSanityQuery<ContactPageCmsContent>(contactPageQuery, {}, ['sanity', 'sanity-contact-page'])
   } catch (error) {
     console.warn('Sanity contact page fetch failed:', error)
+    return null
+  }
+}
+
+export async function getFinancingPageCmsContent(): Promise<FinancingPageCmsContent | null> {
+  try {
+    return await runSanityQuery<FinancingPageCmsContent>(financingPageQuery, {}, ['sanity', 'sanity-financing-page'])
+  } catch (error) {
+    console.warn('Sanity financing page fetch failed:', error)
     return null
   }
 }

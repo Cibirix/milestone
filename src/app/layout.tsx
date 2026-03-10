@@ -88,7 +88,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en" className={`${manrope.variable} ${sora.variable}`}>
-      <body className={manrope.className}>
+      <body id="top" className={manrope.className}>
         <Script
           id="schema-local-business"
           type="application/ld+json"
@@ -96,7 +96,13 @@ export default async function RootLayout({
             __html: JSON.stringify(schemaData),
           }}
         />
-        <Header siteInfo={{ phone: resolvedSiteInfo.phone, phoneDigits: resolvedSiteInfo.phoneDigits }} />
+        <Header
+          siteInfo={{
+            phone: resolvedSiteInfo.phone,
+            phoneDigits: resolvedSiteInfo.phoneDigits,
+            threeDBuilderUrl: resolvedSiteInfo.threeDBuilderUrl,
+          }}
+        />
         <main className="min-h-screen">{children}</main>
         <Footer siteInfo={resolvedSiteInfo} />
       </body>

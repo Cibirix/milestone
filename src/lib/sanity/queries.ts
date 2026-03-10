@@ -1,15 +1,13 @@
-import groq from 'groq'
+// Keep GROQ queries as plain strings so Next dev doesn't need a separate groq vendor chunk.
+const groq = String.raw
 
 export const homepageQuery = groq`*[_type == "homepage"] | order(_updatedAt desc)[0]{
   heroHeadline,
   heroSubheadline,
   localIntroHeading,
   localIntroBody,
-  trustedHeading,
   remodelingHeading,
   remodelingBody,
-  emergencyHeading,
-  emergencyBody,
   seo {
     metaTitle,
     metaDescription,
@@ -22,14 +20,11 @@ export const aboutPageQuery = groq`*[_type == "aboutPage"] | order(_updatedAt de
   heroEyebrow,
   heroHeading,
   heroBody,
-  veteranBadgeLabel,
   storyCardHeading,
   storyCardBodyPrimary,
   storyCardBodySecondary,
   valuesCardHeading,
   valuesList,
-  coverageHeading,
-  coverageBody,
   seo {
     metaTitle,
     metaDescription,
@@ -42,11 +37,44 @@ export const contactPageQuery = groq`*[_type == "contactPage"] | order(_updatedA
   heroEyebrow,
   heroHeading,
   heroBody,
-  veteranBadgeLabel,
   contactCardHeading,
   contactCardIntro,
   facebookLabel,
   warrantyNote,
+  financingPartnersHeading,
+  financingPartnersIntro,
+  lightstreamCtaLabel,
+  lightstreamImagePath,
+  allegacyCtaLabel,
+  allegacyImagePath,
+  seo {
+    metaTitle,
+    metaDescription,
+    keywords,
+    "ogImageUrl": ogImage.asset->url
+  }
+}`
+
+export const financingPageQuery = groq`*[_type == "financingPage"] | order(_updatedAt desc)[0]{
+  heroEyebrow,
+  heroHeading,
+  heroBody,
+  financingHeading,
+  financingBody,
+  lightstreamButtonLabel,
+  lightstreamButtonUrl,
+  allegacyButtonLabel,
+  allegacyButtonUrl,
+  "legacyLightstreamButtonLabel": financingButtonLabel,
+  "legacyLightstreamButtonUrl": financingButtonUrl,
+  "legacyAllegacyButtonLabel": ctaButtonLabel,
+  "legacyAllegacyButtonUrl": ctaButtonUrl,
+  financingHighlights,
+  applicationFlowHeading,
+  applicationFlowSteps,
+  ctaHeading,
+  ctaBody,
+  disclaimerText,
   seo {
     metaTitle,
     metaDescription,
@@ -76,6 +104,7 @@ export const siteSettingsQuery = groq`*[_type == "siteSettings"] | order(_update
   tagline,
   phone,
   phoneDigits,
+  threeDBuilderUrl,
   email,
   address,
   hours,
@@ -113,6 +142,7 @@ export const productsQuery = groq`*[_type == "product"] | order(_updatedAt desc)
   title,
   "slug": slug.current,
   category,
+  stockNumber,
   sourceNumber,
   width,
   length,
@@ -124,7 +154,6 @@ export const productsQuery = groq`*[_type == "product"] | order(_updatedAt desc)
   imageAlt,
   "imageUrl": image.asset->url,
   sourcePath,
-  highlights,
   startingPrice,
   financingAvailable,
   rtoAvailable
@@ -134,6 +163,7 @@ export const productBySlugQuery = groq`*[_type == "product" && slug.current == $
   title,
   "slug": slug.current,
   category,
+  stockNumber,
   sourceNumber,
   width,
   length,
@@ -145,7 +175,6 @@ export const productBySlugQuery = groq`*[_type == "product" && slug.current == $
   imageAlt,
   "imageUrl": image.asset->url,
   sourcePath,
-  highlights,
   startingPrice,
   financingAvailable,
   rtoAvailable
