@@ -72,7 +72,6 @@ export function getCategoryMenuItems() {
     categoryInfoByLabel.Garages,
     categoryInfoByLabel.Workshops,
     categoryInfoByLabel['Agricultural Buildings'],
-    categoryInfoByLabel.Other,
   ]
 }
 

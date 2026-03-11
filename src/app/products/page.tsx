@@ -65,6 +65,7 @@ const ProductsPage = async () => {
       }))
 
   const categories = Array.from(new Set(listingProducts.map((product) => product.category)))
+    .filter((category) => getCategoryInfoByLabel(category).slug !== 'steel-structures')
   const grouped = categories.map((category) => ({
     category,
     info: getCategoryInfoByLabel(category),

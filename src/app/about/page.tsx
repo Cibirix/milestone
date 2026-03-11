@@ -1,6 +1,7 @@
 import { Metadata } from 'next'
+import Image from 'next/image'
+import Link from 'next/link'
 import { FiCheckCircle, FiCompass, FiShield } from 'react-icons/fi'
-import CoverageMap from '@/components/CoverageMap'
 import PageHero from '@/components/PageHero'
 import { getAboutPageCmsContent, getSiteSettingsCmsContent } from '@/lib/sanity/content'
 
@@ -67,21 +68,52 @@ const AboutPage = async () => {
       />
 
     <section className="py-14">
-      <div className="container-custom grid grid-cols-1 gap-10 lg:grid-cols-[1.05fr_0.95fr]">
-        <article className="panel-card p-8 md:p-10">
-          <div className="flex items-center gap-3">
-            <span className="icon-frame border-slate-200 bg-brand-50 text-brand-800 shadow-none">
-              <FiCompass />
-            </span>
-            <p className="section-chip bg-brand-50 text-brand-800 ring-1 ring-brand-200/80">The Story</p>
+      <div className="container-custom grid grid-cols-1 items-start gap-10 lg:grid-cols-[1.05fr_0.95fr]">
+        <article className="panel-card h-fit self-start overflow-hidden">
+          <div className="relative h-64">
+            <Image
+              src="/pages/about-story.jpg"
+              alt="Owner reviewing metal building plans with field team"
+              fill
+              className="object-cover object-[center_18%]"
+              unoptimized
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#101922]/80 via-[#101922]/42 to-transparent" />
+            <div className="absolute inset-x-0 bottom-0 p-6 text-white">
+              <div className="flex items-center gap-3">
+                <span className="icon-frame border-white/20 bg-white/15 shadow-none">
+                  <FiCompass />
+                </span>
+                <p className="section-chip bg-white/10 text-tan-100 ring-1 ring-white/20">The Story</p>
+              </div>
+              <h2 className="mt-3 font-display text-2xl">{storyCardHeading}</h2>
+            </div>
           </div>
-          <h2 className="font-display text-2xl text-charcoal-900">{storyCardHeading}</h2>
-          <p className="mt-4 text-charcoal-700">
-            {storyCardBodyPrimary}
-          </p>
-          <p className="mt-3 text-charcoal-700">
-            {storyCardBodySecondary}
-          </p>
+          <div className="p-8 md:p-10">
+            <p className="text-charcoal-700">
+              {storyCardBodyPrimary}
+            </p>
+            <p className="mt-3 text-charcoal-700">
+              {storyCardBodySecondary}
+            </p>
+            <div className="mt-7 rounded-2xl border border-slate-200 bg-slate-50 p-5">
+              <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-rust-700">How We Work</p>
+              <div className="mt-4 grid gap-3 sm:grid-cols-3">
+                <div className="rounded-xl border border-slate-200 bg-white p-4">
+                  <p className="text-sm font-semibold text-charcoal-900">1. Discovery</p>
+                  <p className="mt-2 text-xs leading-6 text-charcoal-600">We confirm size, use case, and site details before recommending options.</p>
+                </div>
+                <div className="rounded-xl border border-slate-200 bg-white p-4">
+                  <p className="text-sm font-semibold text-charcoal-900">2. Configuration</p>
+                  <p className="mt-2 text-xs leading-6 text-charcoal-600">Roof style, doors, windows, and color selections are matched to your goals.</p>
+                </div>
+                <div className="rounded-xl border border-slate-200 bg-white p-4">
+                  <p className="text-sm font-semibold text-charcoal-900">3. Delivery</p>
+                  <p className="mt-2 text-xs leading-6 text-charcoal-600">We coordinate timelines and keep communication clear through completion.</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </article>
 
         <article className="panel-card overflow-hidden">
@@ -101,6 +133,23 @@ const AboutPage = async () => {
                 <FiCheckCircle className="mt-1 text-brand-700" /> {item}
               </p>
             ))}
+
+            <div className="relative mt-5 overflow-hidden rounded-2xl border border-slate-200">
+              <div className="relative h-36">
+                <Image
+                  src="/pages/about-approach.jpg"
+                  alt="Customer consultation with building plans and laptop"
+                  fill
+                  className="object-cover"
+                  unoptimized
+                />
+                <div className="absolute inset-0 bg-gradient-to-r from-[#101922]/78 via-[#101922]/34 to-transparent" />
+                <div className="absolute inset-x-0 bottom-0 p-4 text-white">
+                  <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-rust-300">Our Approach</p>
+                  <p className="mt-1 text-sm text-slate-200">Straight answers, practical options, and consistent follow-through.</p>
+                </div>
+              </div>
+            </div>
           </div>
         </article>
       </div>
@@ -108,7 +157,30 @@ const AboutPage = async () => {
 
     <section className="pb-14">
       <div className="container-custom">
-        <CoverageMap />
+        <div className="panel-card overflow-hidden">
+          <div className="grid gap-0 md:grid-cols-[minmax(0,0.56fr)_minmax(0,0.44fr)]">
+            <div className="relative min-h-[15rem]">
+              <Image
+                src="/products/milestone/24x60x12-two-car-garage.jpg"
+                alt="Milestone service coverage"
+                fill
+                className="object-cover"
+                unoptimized
+              />
+              <div className="absolute inset-0 bg-gradient-to-r from-[#101922]/72 via-[#101922]/30 to-transparent" />
+            </div>
+            <div className="p-7 md:p-9">
+              <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-rust-700">Service Coverage</p>
+              <h3 className="mt-3 font-display text-2xl text-charcoal-900">See Our Multi-State Service Area</h3>
+              <p className="mt-3 text-sm leading-7 text-charcoal-600">
+                Review where Milestone currently delivers and get a quick coverage confirmation for your address.
+              </p>
+              <Link href="/service-area" className="btn-primary mt-5 inline-flex">
+                View Service Area
+              </Link>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   </>

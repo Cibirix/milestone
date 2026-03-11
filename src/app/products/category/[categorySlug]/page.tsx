@@ -17,6 +17,8 @@ type PageProps = {
   }
 }
 
+export const dynamicParams = false
+
 type ListingProduct = {
   slug: string
   title: string
@@ -62,6 +64,7 @@ async function getListingProducts(): Promise<ListingProduct[]> {
 export async function generateStaticParams() {
   const listingProducts = await getListingProducts()
   const slugs = Array.from(new Set(listingProducts.map((item) => toCategorySlug(item.category))))
+    .filter((slug) => slug !== 'steel-structures')
   return slugs.map((categorySlug) => ({ categorySlug }))
 }
 
@@ -104,6 +107,10 @@ const brandPoints = [
 ]
 
 const CategoryProductsPage = async ({ params }: PageProps) => {
+  if (params.categorySlug === 'steel-structures') {
+    notFound()
+  }
+
   const siteSettings = await getSiteSettingsCmsContent()
   const resolvedSiteInfo = resolveSiteInfo(siteSettings)
   const listingProducts = await getListingProducts()
@@ -198,16 +205,9 @@ const CategoryProductsPage = async ({ params }: PageProps) => {
                 <div className="absolute inset-0 bg-gradient-to-t from-[#101922]/90 via-[#101922]/20 to-transparent" />
               </div>
               <div className="absolute bottom-0 left-0 right-0 p-6">
-                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-rust-400">Featured Model</p>
-                <h3 className="mt-1 font-display text-2xl font-black text-white">{featuredProduct.title}</h3>
-                {featuredProduct.imageSrc && (
-                  <Link
-                    href={`/products/${featuredProduct.slug}`}
-                    className="mt-3 inline-flex items-center gap-1.5 text-sm font-semibold text-white/70 transition hover:text-white"
-                  >
-                    View details <FiArrowRight className="text-xs" />
-                  </Link>
-                )}
+                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-rust-400">Category Showcase</p>
+                <h3 className="mt-1 font-display text-2xl font-black text-white">{categoryInfo.menuLabel}</h3>
+                <p className="mt-3 text-sm text-white/70">Representative building style for this category.</p>
               </div>
             </div>
           </div>

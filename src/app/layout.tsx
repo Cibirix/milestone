@@ -62,6 +62,7 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+  const recaptchaSiteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY
   const siteSettings = await getSiteSettingsCmsContent()
   const resolvedSiteInfo = resolveSiteInfo(siteSettings)
 
@@ -96,6 +97,13 @@ export default async function RootLayout({
             __html: JSON.stringify(schemaData),
           }}
         />
+        {recaptchaSiteKey ? (
+          <Script
+            id="recaptcha-v3"
+            src={`https://www.google.com/recaptcha/api.js?render=${recaptchaSiteKey}`}
+            strategy="afterInteractive"
+          />
+        ) : null}
         <Header
           siteInfo={{
             phone: resolvedSiteInfo.phone,

@@ -4,6 +4,15 @@ import { useEffect, useMemo, useState } from 'react'
 import { FiCheck } from 'react-icons/fi'
 import { siteInfo } from '@/data/siteData'
 
+declare global {
+  interface Window {
+    grecaptcha?: {
+      ready: (callback: () => void) => void
+      execute: (siteKey: string, options: { action: string }) => Promise<string>
+    }
+  }
+}
+
 type LeadFormData = {
   name: string
   phone: string
@@ -11,6 +20,7 @@ type LeadFormData = {
   service: string
   message: string
   website: string
+  recaptchaToken: string
   landingPage: string
   pageUrl: string
   referrer: string
@@ -25,6 +35,7 @@ type LeadFormData = {
 }
 
 const UTM_STORAGE_KEY = 'sensei-lead-attribution'
+const recaptchaSiteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY
 
 function getInitialFormData(): LeadFormData {
   return {
@@ -34,6 +45,7 @@ function getInitialFormData(): LeadFormData {
     service: '',
     message: '',
     website: '',
+    recaptchaToken: '',
     landingPage: '',
     pageUrl: '',
     referrer: '',
@@ -51,9 +63,11 @@ function getInitialFormData(): LeadFormData {
 const LeadForm = ({
   variant = 'light',
   phone = siteInfo.phone,
+  className = '',
 }: {
   variant?: 'light' | 'dark'
   phone?: string
+  className?: string
 }) => {
   const [formData, setFormData] = useState<LeadFormData>(getInitialFormData)
   const [isSubmitted, setIsSubmitted] = useState(false)
@@ -109,10 +123,25 @@ const LeadForm = ({
     setIsSubmitting(true)
 
     try {
+      let recaptchaToken = ''
+      if (recaptchaSiteKey && typeof window !== 'undefined' && window.grecaptcha) {
+        recaptchaToken = await new Promise<string>((resolve, reject) => {
+          window.grecaptcha?.ready(() => {
+            window.grecaptcha
+              ?.execute(recaptchaSiteKey, { action: 'lead_submit' })
+              .then(resolve)
+              .catch(reject)
+          })
+        })
+      }
+
       const response = await fetch('/api/lead', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          recaptchaToken,
+        }),
       })
 
       if (!response.ok) {
@@ -141,7 +170,7 @@ const LeadForm = ({
   }
 
   return (
-    <div className={`${variant === 'dark' ? 'border-white/15 bg-white/[0.97] text-slate-900' : 'border-slate-200 bg-white/95 text-slate-900'} panel-card p-5 sm:p-6`}>
+    <div className={`${variant === 'dark' ? 'border-white/15 bg-white/[0.97] text-slate-900' : 'border-slate-200 bg-white/95 text-slate-900'} panel-card p-5 sm:p-6 ${className}`}>
       <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-700">Quick Quote Form</p>
       <h3 className="mt-3 font-display text-[1.8rem] font-bold leading-tight text-slate-900">Get a Custom Building Quote</h3>
       <p className="mt-2 text-sm leading-6 text-slate-600">Tell us what you are planning and our team will follow up with guidance on sizing, options, and next steps.</p>

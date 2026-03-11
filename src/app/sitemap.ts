@@ -12,8 +12,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const cmsCategories = cmsProducts.map((item) => item.category).filter(Boolean) as string[]
   const fallbackCategories = products.map((product) => product.category)
   const categorySlugs = Array.from(new Set([...fallbackCategories, ...cmsCategories].map((category) => toCategorySlug(category))))
+    .filter((slug) => slug !== 'steel-structures')
 
-  const staticRoutes = ['', '/products', '/gallery', '/about', '/contact', '/rto-financing'].map((route) => ({
+  const staticRoutes = ['', '/products', '/service-area', '/about', '/contact', '/rto-financing'].map((route) => ({
     url: `${baseUrl}${route}`,
     lastModified: new Date(),
     changeFrequency: 'weekly' as const,

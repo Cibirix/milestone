@@ -8,6 +8,7 @@ import {
   merchantFeedProductsQuery,
   productBySlugQuery,
   productsQuery,
+  serviceAreaPageQuery,
   servicePageBySlugQuery,
   siteSettingsQuery,
   testimonialsQuery,
@@ -90,6 +91,17 @@ export type ServiceCmsContent = {
   ctaPrimary?: string
   ctaSecondary?: string
   faqs?: Array<{ question?: string; answer?: string }>
+  seo?: SeoPayload
+}
+
+export type ServiceAreaPageCmsContent = {
+  heroEyebrow?: string
+  heroHeading?: string
+  heroBody?: string
+  coverageHeading?: string
+  coverageBody?: string
+  coverageStates?: string[]
+  notes?: string[]
   seo?: SeoPayload
 }
 
@@ -253,6 +265,19 @@ export async function getServiceCmsContent(slug: string): Promise<ServiceCmsCont
     )
   } catch (error) {
     console.warn(`Sanity service fetch failed for ${slug}:`, error)
+    return null
+  }
+}
+
+export async function getServiceAreaPageCmsContent(): Promise<ServiceAreaPageCmsContent | null> {
+  try {
+    return await runSanityQuery<ServiceAreaPageCmsContent>(
+      serviceAreaPageQuery,
+      {},
+      ['sanity', 'sanity-service-area-page'],
+    )
+  } catch (error) {
+    console.warn('Sanity service area page fetch failed:', error)
     return null
   }
 }

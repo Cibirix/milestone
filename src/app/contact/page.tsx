@@ -1,10 +1,10 @@
 import { Metadata } from 'next'
 import Image from 'next/image'
 import { FaFacebookF } from 'react-icons/fa'
-import { FiClock, FiExternalLink, FiMail, FiMapPin, FiPhone } from 'react-icons/fi'
+import { FiClock, FiMail, FiMapPin, FiPhone } from 'react-icons/fi'
 import LeadForm from '@/components/LeadForm'
 import PageHero from '@/components/PageHero'
-import { getContactPageCmsContent, getFinancingPageCmsContent, getSiteSettingsCmsContent } from '@/lib/sanity/content'
+import { getContactPageCmsContent, getSiteSettingsCmsContent } from '@/lib/sanity/content'
 import { resolveSiteInfo } from '@/lib/siteSettings'
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -36,9 +36,8 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 const ContactPage = async () => {
-  const [contactPage, financingPage, siteSettings] = await Promise.all([
+  const [contactPage, siteSettings] = await Promise.all([
     getContactPageCmsContent(),
-    getFinancingPageCmsContent(),
     getSiteSettingsCmsContent(),
   ])
   const resolvedSiteInfo = resolveSiteInfo(siteSettings)
@@ -54,32 +53,8 @@ const ContactPage = async () => {
   const warrantyNote =
     contactPage?.warrantyNote ||
     'Warranty and insulation options vary by manufacturer. We will help you compare details during your quote consultation.'
-  const financingPartnersHeading = contactPage?.financingPartnersHeading || 'Financing Partners'
-  const financingPartnersIntro =
-    contactPage?.financingPartnersIntro ||
-    'Apply directly with either lender. Most customers complete this step in just a few minutes.'
-  const lightstreamLabel =
-    financingPage?.lightstreamButtonLabel ||
-    financingPage?.legacyLightstreamButtonLabel ||
-    'LightStream'
-  const lightstreamUrl =
-    financingPage?.lightstreamButtonUrl ||
-    financingPage?.legacyLightstreamButtonUrl ||
-    'https://www.lightstream.com/apply'
-  const allegacyLabel =
-    financingPage?.allegacyButtonLabel ||
-    financingPage?.legacyAllegacyButtonLabel ||
-    'Allegacy Bank'
-  const allegacyUrl =
-    financingPage?.allegacyButtonUrl ||
-    financingPage?.legacyAllegacyButtonUrl ||
-    'https://allegrologin.com/app/a5ef9ce5'
-  const lightstreamCtaLabel = contactPage?.lightstreamCtaLabel || 'Apply online'
-  const lightstreamImagePath =
-    contactPage?.lightstreamImagePath || '/products/milestone/26x30x12-walk-out-garage.jpg'
-  const allegacyCtaLabel = contactPage?.allegacyCtaLabel || 'Open partner link'
-  const allegacyImagePath =
-    contactPage?.allegacyImagePath || '/products/milestone/30x60x12-premium-workshop.jpg'
+  const mapQuery = encodeURIComponent(resolvedSiteInfo.address)
+  const googleMapSrc = `https://www.google.com/maps?q=${mapQuery}&output=embed`
 
   return (
     <>
@@ -90,12 +65,29 @@ const ContactPage = async () => {
         compact
       />
 
-    <section className="py-14">
+    <section className="bg-slate-50 py-14">
       <div className="container-custom grid grid-cols-1 gap-8 lg:grid-cols-[0.95fr_1.05fr]">
-        <div className="panel-card p-8 md:p-10">
+        <div className="panel-card border-brand-100 bg-gradient-to-b from-white to-brand-50/35 p-8 md:p-10">
+          <div className="relative mb-6 overflow-hidden rounded-2xl border border-slate-200">
+            <div className="relative h-36">
+              <Image
+                src="/pages/contact-advisor.jpg"
+                alt="Advisor discussing project planning options with customers"
+                fill
+                className="object-cover"
+                unoptimized
+              />
+              <div className="absolute inset-0 bg-gradient-to-r from-[#101922]/80 via-[#101922]/35 to-transparent" />
+              <div className="absolute inset-x-0 bottom-0 p-4 text-white">
+                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-rust-300">Advisor Support</p>
+                <p className="mt-1 text-sm text-slate-200">Talk with a real advisor for scope, budget, and timeline planning.</p>
+              </div>
+            </div>
+          </div>
+
           <h2 className="font-display text-2xl text-charcoal-900">{contactCardHeading}</h2>
           {contactCardIntro && <p className="mt-3 text-sm text-charcoal-600">{contactCardIntro}</p>}
-          <div className="mt-6 space-y-3 text-charcoal-700">
+          <div className="mt-6 space-y-3 border-b border-slate-200 pb-6 text-charcoal-700">
             <p className="flex gap-3 rounded-[1.1rem] border border-slate-200 bg-slate-50 px-4 py-3"><FiPhone className="mt-1 text-brand-700" /><span><span className="font-semibold">Phone:</span> <a href={`tel:${resolvedSiteInfo.phoneDigits}`}>{resolvedSiteInfo.phone}</a></span></p>
             <p className="flex gap-3 rounded-[1.1rem] border border-slate-200 bg-slate-50 px-4 py-3"><FiMail className="mt-1 text-brand-700" /><span><span className="font-semibold">Email:</span> <a href={`mailto:${resolvedSiteInfo.email}`}>{resolvedSiteInfo.email}</a></span></p>
             <p className="flex gap-3 rounded-[1.1rem] border border-slate-200 bg-slate-50 px-4 py-3"><FiMapPin className="mt-1 text-brand-700" /><span><span className="font-semibold">Address:</span> {resolvedSiteInfo.address}</span></p>
@@ -106,61 +98,29 @@ const ContactPage = async () => {
           <div className="mt-6 rounded-[1.3rem] border border-emerald-100 bg-gradient-to-r from-emerald-50 to-tan-50 p-4 text-sm text-charcoal-700">
             {warrantyNote}
           </div>
-
-          <div className="mt-6 rounded-[1.3rem] border border-slate-200 bg-white p-4">
-            <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-rust-700">{financingPartnersHeading}</p>
-            <p className="mt-2 text-sm leading-6 text-charcoal-600">
-              {financingPartnersIntro}
-            </p>
-            <div className="mt-4 grid gap-3 sm:grid-cols-2">
-              <a
-                href={lightstreamUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="group hover-lift overflow-hidden rounded-xl border border-slate-200 bg-slate-50"
-              >
-                <div className="relative h-20">
-                  <Image
-                    src={lightstreamImagePath}
-                    alt="LightStream financing"
-                    fill
-                    className="object-cover transition duration-500 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-r from-[#101922]/80 via-[#101922]/50 to-transparent" />
-                  <p className="absolute left-3 top-3 text-sm font-bold text-white">{lightstreamLabel}</p>
-                </div>
-                <div className="flex items-center justify-between px-3 py-2.5 text-sm font-semibold text-charcoal-800">
-                  <span>{lightstreamCtaLabel}</span>
-                  <FiExternalLink className="text-rust-600 transition group-hover:translate-x-0.5" />
-                </div>
-              </a>
-
-              <a
-                href={allegacyUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="group hover-lift overflow-hidden rounded-xl border border-slate-200 bg-slate-50"
-              >
-                <div className="relative h-20">
-                  <Image
-                    src={allegacyImagePath}
-                    alt="Allegacy financing"
-                    fill
-                    className="object-cover transition duration-500 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-r from-[#132547]/80 via-[#132547]/45 to-transparent" />
-                  <p className="absolute left-3 top-3 text-sm font-bold text-white">{allegacyLabel}</p>
-                </div>
-                <div className="flex items-center justify-between px-3 py-2.5 text-sm font-semibold text-charcoal-800">
-                  <span>{allegacyCtaLabel}</span>
-                  <FiExternalLink className="text-rust-600 transition group-hover:translate-x-0.5" />
-                </div>
-              </a>
-            </div>
-          </div>
         </div>
 
-        <LeadForm phone={resolvedSiteInfo.phone} />
+        <div className="relative h-full lg:pl-2">
+          <div className="pointer-events-none absolute inset-y-2 left-0 hidden w-px bg-gradient-to-b from-transparent via-brand-200 to-transparent lg:block" />
+          <LeadForm phone={resolvedSiteInfo.phone} className="h-full" />
+        </div>
+      </div>
+    </section>
+
+    <section className="bg-slate-50 pb-14">
+      <div className="container-custom">
+        <div className="overflow-hidden rounded-[1.3rem] border border-slate-200 bg-white">
+          <div className="border-b border-slate-200 px-4 py-3">
+            <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-charcoal-500">Google Maps</p>
+          </div>
+          <iframe
+            src={googleMapSrc}
+            title="Milestone Structures location map"
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            className="h-[420px] w-full"
+          />
+        </div>
       </div>
     </section>
   </>

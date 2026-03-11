@@ -99,6 +99,22 @@ export const servicePageBySlugQuery = groq`*[_type == "servicePage" && slug.curr
   }
 }`
 
+export const serviceAreaPageQuery = groq`*[_type == "serviceAreaPage"] | order(_updatedAt desc)[0]{
+  heroEyebrow,
+  heroHeading,
+  heroBody,
+  coverageHeading,
+  coverageBody,
+  coverageStates,
+  notes,
+  seo {
+    metaTitle,
+    metaDescription,
+    keywords,
+    "ogImageUrl": ogImage.asset->url
+  }
+}`
+
 export const siteSettingsQuery = groq`*[_type == "siteSettings"] | order(_updatedAt desc)[0]{
   companyName,
   tagline,

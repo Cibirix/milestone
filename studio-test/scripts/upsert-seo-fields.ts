@@ -86,6 +86,23 @@ const seoDocs: SeoDocConfig[] = [
     },
   },
   {
+    id: 'serviceAreaPage.main',
+    type: 'serviceAreaPage',
+    title: 'Service Area Page Content',
+    seoField: 'seo',
+    seo: {
+      metaTitle: 'Service Area | Milestone Structures Delivery Coverage',
+      metaDescription:
+        'Explore Milestone Structures service coverage across the Southeast, Mid-Atlantic, and surrounding states.',
+      keywords: [
+        'metal building service area',
+        'milestone structures coverage',
+        'steel building delivery states',
+        'custom building service map',
+      ],
+    },
+  },
+  {
     id: 'siteSettings.main',
     type: 'siteSettings',
     title: 'Site Settings',

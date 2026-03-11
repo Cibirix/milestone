@@ -7,6 +7,7 @@ type LeadPayload = {
   service?: string
   message?: string
   website?: string
+  recaptchaToken?: string
   landingPage?: string
   pageUrl?: string
   referrer?: string
@@ -18,6 +19,12 @@ type LeadPayload = {
   gclid?: string
   fbclid?: string
   startedAt?: string
+}
+
+type RecaptchaVerificationResponse = {
+  success?: boolean
+  score?: number
+  action?: string
 }
 
 function isSameOrigin(request: NextRequest) {
@@ -45,6 +52,58 @@ function isSuspiciousSubmission(payload: LeadPayload) {
   return null
 }
 
+async function verifyRecaptcha(token: string, remoteIp?: string | null) {
+  const secretKey = process.env.RECAPTCHA_SECRET_KEY
+  if (!secretKey) return { ok: true as const, reason: '' }
+
+  if (!token) {
+    return { ok: false as const, reason: 'Missing reCAPTCHA token' }
+  }
+
+  try {
+    const body = new URLSearchParams({
+      secret: secretKey,
+      response: token,
+    })
+
+    if (remoteIp) {
+      body.set('remoteip', remoteIp)
+    }
+
+    const response = await fetch('https://www.google.com/recaptcha/api/siteverify', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: body.toString(),
+    })
+
+    if (!response.ok) {
+      return { ok: false as const, reason: 'reCAPTCHA verification failed' }
+    }
+
+    const payload = (await response.json()) as RecaptchaVerificationResponse
+    const minScore = Number(process.env.RECAPTCHA_MIN_SCORE || '0.5')
+    const expectedAction = 'lead_submit'
+
+    if (!payload.success) {
+      return { ok: false as const, reason: 'reCAPTCHA was not successful' }
+    }
+
+    if (payload.action && payload.action !== expectedAction) {
+      return { ok: false as const, reason: 'Invalid reCAPTCHA action' }
+    }
+
+    if (typeof payload.score === 'number' && Number.isFinite(minScore) && payload.score < minScore) {
+      return { ok: false as const, reason: 'reCAPTCHA score too low' }
+    }
+
+    return { ok: true as const, reason: '' }
+  } catch {
+    return { ok: false as const, reason: 'reCAPTCHA request error' }
+  }
+}
+
 export async function POST(request: NextRequest) {
   const payload = (await request.json()) as LeadPayload
 
@@ -59,6 +118,12 @@ export async function POST(request: NextRequest) {
   const suspiciousReason = isSuspiciousSubmission(payload)
   if (suspiciousReason) {
     return NextResponse.json({ ok: false, error: suspiciousReason }, { status: 400 })
+  }
+
+  const remoteIp = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || null
+  const recaptchaResult = await verifyRecaptcha(payload.recaptchaToken || '', remoteIp)
+  if (!recaptchaResult.ok) {
+    return NextResponse.json({ ok: false, error: recaptchaResult.reason }, { status: 400 })
   }
 
   const leadRecord = {

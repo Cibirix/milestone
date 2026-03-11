@@ -130,24 +130,29 @@ const HomePage = async () => {
   return (
     <>
       {/* ── HERO ── full-bleed image with lighter overlay */}
-      <section className="relative flex min-h-[92vh] items-center overflow-hidden">
+      <section className="relative flex min-h-[74vh] items-center overflow-hidden md:min-h-[78vh] lg:min-h-[80vh]">
         {/* Background image */}
         <div className="absolute inset-0">
           <Image
             src="/hero-realistic-q72.jpg"
             alt="Milestone Structures steel building"
             fill
-            className="object-cover object-center"
+            className="object-cover object-[center_44%]"
             priority
             unoptimized
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#101922]/62 via-[#101922]/36 to-[#101922]/12" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#101922]/34 via-[#101922]/8 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#101922]/52 via-[#101922]/22 to-[#101922]/8" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#101922]/28 via-[#101922]/4 to-transparent" />
         </div>
 
         {/* Content */}
-        <div className="container-custom relative z-10 py-24 md:py-32">
+        <div className="container-custom relative z-10 py-14 md:py-16">
           <div className="max-w-3xl">
+            <span className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-4 py-2 text-xs font-bold uppercase tracking-[0.2em] text-white/90 backdrop-blur">
+              <FiShield className="text-rust-400" />
+              Veteran-Owned & Operated
+            </span>
+
             <h1 className="font-display text-5xl font-black leading-[1.05] tracking-tight text-white md:text-6xl lg:text-[5.2rem]">
               {heroHeadline}
             </h1>
@@ -183,7 +188,7 @@ const HomePage = async () => {
       </section>
 
       {/* ── TRUST CARDS ── */}
-      <section className="bg-white py-14">
+      <section className="bg-white pt-8 pb-14 md:pt-10">
         <div className="container-custom">
           <div className="mx-auto max-w-3xl text-center">
             <span className="inline-block rounded-full bg-rust-50 px-4 py-1.5 text-xs font-bold uppercase tracking-[0.22em] text-rust-700 ring-1 ring-rust-200/80">
@@ -377,20 +382,52 @@ const HomePage = async () => {
       {/* ── QUOTE / CONTACT ── */}
       <section id="quote-form" className="bg-slate-50 py-16">
         <div className="container-custom">
-          <div className="mx-auto mb-8 max-w-3xl text-center">
-            <span className="inline-block rounded-full bg-white px-4 py-1.5 text-xs font-bold uppercase tracking-[0.22em] text-rust-700 ring-1 ring-rust-100">
-              Start Your Quote
-            </span>
-            <h2 className="mt-4 font-display text-3xl font-black leading-tight text-charcoal-950 md:text-4xl">
-              Tell us what you need and we will follow up fast.
-            </h2>
-            <p className="mt-3 text-base leading-7 text-charcoal-600">
-              One form, one next step. Our team will review your request and contact you with options and pricing guidance.
-            </p>
-          </div>
+          <div className="grid gap-8 lg:grid-cols-[minmax(0,1.08fr)_minmax(0,0.92fr)] lg:items-stretch">
+            <article className="panel-card overflow-hidden">
+              <div className="relative h-full min-h-[24rem]">
+                <Image
+                  src="/products/milestone/26x30x12-walk-out-garage.jpg"
+                  alt="Milestone quote support"
+                  fill
+                  className="object-cover"
+                  unoptimized
+                />
+                <div className="absolute inset-0 bg-gradient-to-r from-[#101922]/84 via-[#101922]/52 to-[#101922]/26" />
 
-          <div className="mx-auto max-w-3xl">
-            <LeadForm phone={resolvedSiteInfo.phone} />
+                <div className="relative z-10 flex h-full flex-col justify-between p-8 text-white md:p-10">
+                  <div>
+                    <span className="inline-flex items-center rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-xs font-bold uppercase tracking-[0.22em] text-rust-300">
+                      Start Your Quote
+                    </span>
+                    <h2 className="mt-4 font-display text-3xl font-black leading-tight md:text-4xl">
+                      Tell us what you need. We handle the next step.
+                    </h2>
+                    <p className="mt-4 max-w-xl text-sm leading-7 text-slate-200">
+                      Submit one short form and our team will follow up with sizing guidance, product options, delivery info, and financing paths.
+                    </p>
+                  </div>
+
+                  <div className="mt-8 grid gap-3 sm:grid-cols-2">
+                    <div className="rounded-xl border border-white/15 bg-white/10 px-4 py-3">
+                      <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-rust-300">
+                        <FiCheckCircle /> Fast Response
+                      </p>
+                      <p className="mt-1 text-sm text-slate-200">Quick follow-up from a real project advisor.</p>
+                    </div>
+                    <div className="rounded-xl border border-white/15 bg-white/10 px-4 py-3">
+                      <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-rust-300">
+                        <FiTool /> 3D Builder Support
+                      </p>
+                      <p className="mt-1 text-sm text-slate-200">Move directly from quote into live configuration.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <div className="lg:pl-2">
+              <LeadForm phone={resolvedSiteInfo.phone} />
+            </div>
           </div>
         </div>
       </section>

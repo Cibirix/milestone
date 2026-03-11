@@ -1,7 +1,7 @@
 import { revalidatePath, revalidateTag } from 'next/cache'
 import { NextRequest, NextResponse } from 'next/server'
 
-const defaultPaths = ['/', '/services/roofing', '/gallery/images']
+const defaultPaths = ['/', '/products', '/service-area', '/about', '/contact', '/rto-financing']
 const defaultTags = ['sanity']
 
 export async function POST(request: NextRequest) {

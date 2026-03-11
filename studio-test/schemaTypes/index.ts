@@ -1,9 +1,9 @@
 import { aboutPageType } from './documents/aboutPageType'
 import { contactPageType } from './documents/contactPageType'
 import { financingPageType } from './documents/financingPageType'
-import { galleryItemType } from './documents/galleryItemType'
 import { homepageType } from './documents/homepageType'
 import { productType } from './documents/productType'
+import { serviceAreaPageType } from './documents/serviceAreaPageType'
 import { servicePageType } from './documents/servicePageType'
 import { siteSettingsType } from './documents/siteSettingsType'
 import { testimonialType } from './documents/testimonialType'
@@ -16,10 +16,10 @@ export const schemaTypes = [
   financingPageType,
   homepageType,
   productType,
+  serviceAreaPageType,
   servicePageType,
   siteSettingsType,
   testimonialType,
-  galleryItemType,
   faqItemType,
   seoType,
 ]

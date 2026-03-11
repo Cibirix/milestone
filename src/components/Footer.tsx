@@ -24,7 +24,7 @@ type FooterProps = {
 
 const productLinks = [
   { label: 'All Products', href: '/products' },
-  { label: 'Gallery', href: '/gallery' },
+  { label: 'Service Area', href: '/service-area' },
   { label: 'Financing', href: '/rto-financing' },
   { label: 'About Us', href: '/about' },
   { label: 'Contact', href: '/contact' },
@@ -144,7 +144,7 @@ const Footer = ({ siteInfo }: FooterProps) => {
           </p>
           <div className="flex gap-4 text-xs text-slate-500">
             <a href="#top" className="transition hover:text-white">Back to Top</a>
-            <a href="https://www.cibirix.com" target="_blank" rel="noreferrer" className="transition hover:text-white">
+            <a href="https://cibirix.com" target="_blank" rel="noreferrer" className="transition hover:text-white">
               Website by Cibirix
             </a>
           </div>
