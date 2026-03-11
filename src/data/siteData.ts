@@ -5,7 +5,9 @@ export const siteInfo = {
   phoneDigits: '18557894395',
   threeDBuilderUrl: process.env.NEXT_PUBLIC_3D_BUILDER_URL || 'https://milestonestructures.sensei3d.com/',
   email: 'info@milestonestructures.com',
-  address: '3311 NC 268, Pilot Mountain, NC 27047',
+  address: '3311 NC 268, Siloam, NC 27047',
+  googleMapsEmbedUrl:
+    'https://www.google.com/maps?output=embed&q=3311%20NC%20268%20Siloam%2C%20NC%2027047',
   hours: 'M-S 8-8PM',
   serviceArea:
     'New York, Pennsylvania, New Jersey, Delaware, Maryland, Washington D.C., Virginia, West Virginia, North Carolina, South Carolina, Georgia, Alabama, Florida, East Texas, Oklahoma, Arkansas, Louisiana',

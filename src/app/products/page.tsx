@@ -157,6 +157,7 @@ const ProductsPage = async () => {
                       imageSrc={product.imageSrc}
                       imageAlt={product.imageAlt}
                       category={product.category}
+                      phoneDigits={resolvedSiteInfo.phoneDigits}
                       priceLabel={
                         typeof product.startingPrice === 'number'
                           ? `Starting at $${product.startingPrice.toLocaleString()}`

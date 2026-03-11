@@ -58,6 +58,8 @@ const Footer = ({ siteInfo }: FooterProps) => {
               <a
                 href={siteInfo.social.facebook}
                 aria-label="Facebook"
+                target="_blank"
+                rel="noreferrer"
                 className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/8 text-slate-400 transition hover:border-rust-700 hover:bg-rust-700 hover:text-white"
               >
                 <FaFacebookF className="text-xs" />
@@ -65,6 +67,8 @@ const Footer = ({ siteInfo }: FooterProps) => {
               <a
                 href={siteInfo.social.instagram}
                 aria-label="Instagram"
+                target="_blank"
+                rel="noreferrer"
                 className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/8 text-slate-400 transition hover:border-rust-700 hover:bg-rust-700 hover:text-white"
               >
                 <FaInstagram className="text-xs" />

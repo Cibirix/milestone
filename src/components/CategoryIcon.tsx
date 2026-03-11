@@ -1,5 +1,8 @@
 import { IconType } from 'react-icons'
-import { FiGrid, FiHome, FiPackage, FiTool, FiTruck } from 'react-icons/fi'
+import { FaCarSide, FaWarehouse } from 'react-icons/fa'
+import { FiGrid, FiTool } from 'react-icons/fi'
+import { GiBarn } from 'react-icons/gi'
+import { MdGarage } from 'react-icons/md'
 
 type CategoryTheme = {
   Icon: IconType
@@ -13,7 +16,7 @@ export function getCategoryTheme(category: string): CategoryTheme {
   switch (category) {
     case 'Garages':
       return {
-        Icon: FiHome,
+        Icon: MdGarage,
         accentClass: 'from-brand-700 via-brand-800 to-charcoal-950',
         surfaceClass: 'bg-brand-50 text-brand-800',
         ringClass: 'ring-brand-200/70',
@@ -29,7 +32,7 @@ export function getCategoryTheme(category: string): CategoryTheme {
       }
     case 'Agricultural Buildings':
       return {
-        Icon: FiPackage,
+        Icon: GiBarn,
         accentClass: 'from-emerald-700 via-emerald-800 to-charcoal-950',
         surfaceClass: 'bg-emerald-50 text-emerald-800',
         ringClass: 'ring-emerald-200/70',
@@ -37,7 +40,7 @@ export function getCategoryTheme(category: string): CategoryTheme {
       }
     case 'Carports':
       return {
-        Icon: FiTruck,
+        Icon: FaCarSide,
         accentClass: 'from-rust-500 via-brand-800 to-charcoal-950',
         surfaceClass: 'bg-rust-50 text-rust-700',
         ringClass: 'ring-rust-200/70',
@@ -45,7 +48,7 @@ export function getCategoryTheme(category: string): CategoryTheme {
       }
     default:
       return {
-        Icon: FiGrid,
+        Icon: FaWarehouse,
         accentClass: 'from-brand-600 via-brand-800 to-charcoal-950',
         surfaceClass: 'bg-brand-50 text-brand-800',
         ringClass: 'ring-brand-200/70',

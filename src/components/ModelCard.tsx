@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { FiArrowRight } from 'react-icons/fi'
+import { FiArrowRight, FiPhone } from 'react-icons/fi'
 
 type ModelCardProps = {
   href: string
@@ -9,6 +9,7 @@ type ModelCardProps = {
   imageAlt: string
   category?: string
   priceLabel?: string
+  phoneDigits?: string
   imageHeightClassName?: string
 }
 
@@ -19,9 +20,13 @@ const ModelCard = ({
   imageAlt,
   category,
   priceLabel,
+  phoneDigits,
   imageHeightClassName = 'h-48',
-}: ModelCardProps) => (
-  <article className="group flex flex-col overflow-hidden rounded-xl border border-slate-200 bg-white shadow-[0_4px_20px_-8px_rgba(15,29,54,0.12)] transition duration-300 hover:-translate-y-1 hover:border-rust-200 hover:shadow-[0_16px_40px_-12px_rgba(15,29,54,0.2)]">
+}: ModelCardProps) => {
+  const isCallForQuote = !!priceLabel && /call for quote/i.test(priceLabel)
+
+  return (
+    <article className="group flex flex-col overflow-hidden rounded-xl border border-slate-200 bg-white shadow-[0_4px_20px_-8px_rgba(15,29,54,0.12)] transition duration-300 hover:-translate-y-1 hover:border-rust-200 hover:shadow-[0_16px_40px_-12px_rgba(15,29,54,0.2)]">
     {/* Image */}
     <Link href={href} className={`relative block overflow-hidden bg-slate-100 ${imageHeightClassName}`} tabIndex={-1}>
       {imageSrc ? (
@@ -55,9 +60,16 @@ const ModelCard = ({
         </Link>
       </h3>
 
-      {priceLabel && (
+      {priceLabel && (isCallForQuote && phoneDigits ? (
+        <a
+          href={`tel:${phoneDigits}`}
+          className="mt-2 inline-flex items-center gap-1.5 text-sm font-semibold text-rust-700 transition hover:text-rust-800"
+        >
+          <FiPhone className="text-sm" /> Call for Quote
+        </a>
+      ) : (
         <p className="mt-2 text-sm font-semibold text-charcoal-600">{priceLabel}</p>
-      )}
+      ))}
 
       <div className="mt-auto pt-3">
         <Link
@@ -71,6 +83,7 @@ const ModelCard = ({
       </div>
     </div>
   </article>
-)
+  )
+}
 
 export default ModelCard

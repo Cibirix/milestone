@@ -207,7 +207,6 @@ const CategoryProductsPage = async ({ params }: PageProps) => {
               <div className="absolute bottom-0 left-0 right-0 p-6">
                 <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-rust-400">Category Showcase</p>
                 <h3 className="mt-1 font-display text-2xl font-black text-white">{categoryInfo.menuLabel}</h3>
-                <p className="mt-3 text-sm text-white/70">Representative building style for this category.</p>
               </div>
             </div>
           </div>
@@ -243,6 +242,7 @@ const CategoryProductsPage = async ({ params }: PageProps) => {
                 imageSrc={product.imageSrc}
                 imageAlt={product.imageAlt}
                 category={product.category}
+                phoneDigits={resolvedSiteInfo.phoneDigits}
                 priceLabel={
                   typeof product.startingPrice === 'number'
                     ? `Starting at $${product.startingPrice.toLocaleString()}`

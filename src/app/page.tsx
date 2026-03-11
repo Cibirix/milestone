@@ -134,15 +134,40 @@ const HomePage = async () => {
         {/* Background image */}
         <div className="absolute inset-0">
           <Image
-            src="/hero-realistic-q72.jpg"
+            src="/hero-realistic.jpg"
             alt="Milestone Structures steel building"
             fill
-            className="object-cover object-[center_44%]"
+            className="object-cover object-[center_42%]"
             priority
             unoptimized
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#101922]/52 via-[#101922]/22 to-[#101922]/8" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#101922]/28 via-[#101922]/4 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#101922]/52 via-[#101922]/20 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#101922]/24 via-transparent to-transparent" />
+          <div
+            aria-hidden
+            className="pointer-events-none absolute left-0 top-0 h-full w-[40%] opacity-[0.2]"
+            style={{
+              backgroundImage:
+                'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'44\' height=\'36\' viewBox=\'0 0 44 36\'%3E%3Cpolygon points=\'22,3 25.6,13.4 36.6,13.4 27.8,19.8 31.2,30.2 22,23.8 12.8,30.2 16.2,19.8 7.4,13.4 18.4,13.4\' fill=\'white\' fill-opacity=\'.62\'/%3E%3C/svg%3E")',
+              backgroundRepeat: 'repeat',
+              backgroundSize: '44px 36px',
+              WebkitMaskImage: 'linear-gradient(to right, rgba(0,0,0,0.9), rgba(0,0,0,0.35) 78%, transparent 100%)',
+              maskImage: 'linear-gradient(to right, rgba(0,0,0,0.9), rgba(0,0,0,0.35) 78%, transparent 100%)',
+            }}
+          />
+          <div
+            aria-hidden
+            className="pointer-events-none absolute left-0 top-0 h-full w-[40%] opacity-[0.16]"
+            style={{
+              backgroundImage:
+                'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'44\' height=\'36\' viewBox=\'0 0 44 36\'%3E%3Cpolygon points=\'22,3 25.6,13.4 36.6,13.4 27.8,19.8 31.2,30.2 22,23.8 12.8,30.2 16.2,19.8 7.4,13.4 18.4,13.4\' fill=\'white\' fill-opacity=\'.54\'/%3E%3C/svg%3E")',
+              backgroundRepeat: 'repeat',
+              backgroundSize: '44px 36px',
+              backgroundPosition: '22px 16px',
+              WebkitMaskImage: 'linear-gradient(to right, rgba(0,0,0,0.88), rgba(0,0,0,0.3) 78%, transparent 100%)',
+              maskImage: 'linear-gradient(to right, rgba(0,0,0,0.88), rgba(0,0,0,0.3) 78%, transparent 100%)',
+            }}
+          />
         </div>
 
         {/* Content */}
@@ -175,11 +200,11 @@ const HomePage = async () => {
             </div>
 
             {/* Trust items */}
-            <div className="mt-8 flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:gap-x-6 sm:gap-y-2">
+            <div className="mt-9 flex w-full flex-wrap items-center gap-x-8 gap-y-3 rounded-2xl border border-white/20 bg-[#101922]/42 px-4 py-3 backdrop-blur-sm">
               {['Nationwide Delivery', 'Certified Wind & Snow Ratings', 'No Hidden Fees'].map((item) => (
-                <div key={item} className="flex items-center gap-2">
-                  <FiCheckCircle className="shrink-0 text-rust-400 text-sm" />
-                  <span className="text-sm font-medium text-white/75">{item}</span>
+                <div key={item} className="flex items-center gap-2.5 whitespace-nowrap">
+                  <FiCheckCircle className="shrink-0 text-base text-rust-300" />
+                  <span className="text-base font-semibold tracking-[0.01em] text-white/92">{item}</span>
                 </div>
               ))}
             </div>

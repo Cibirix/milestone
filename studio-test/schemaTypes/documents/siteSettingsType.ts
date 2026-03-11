@@ -12,6 +12,7 @@ export const siteSettingsType = defineType({
     defineField({ name: 'threeDBuilderUrl', title: '3D Builder URL', type: 'url' }),
     defineField({ name: 'email', title: 'Email', type: 'string' }),
     defineField({ name: 'address', title: 'Address', type: 'string' }),
+    defineField({ name: 'googleMapsEmbedUrl', title: 'Google Maps Embed URL', type: 'url' }),
     defineField({ name: 'hours', title: 'Hours', type: 'string' }),
     defineField({ name: 'serviceArea', title: 'Service Area Summary', type: 'string' }),
     defineField({ name: 'facebookUrl', title: 'Facebook URL', type: 'url' }),

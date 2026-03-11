@@ -1,6 +1,6 @@
 import { Metadata } from 'next'
 import Image from 'next/image'
-import { FaFacebookF } from 'react-icons/fa'
+import { FaFacebookF, FaInstagram } from 'react-icons/fa'
 import { FiClock, FiMail, FiMapPin, FiPhone } from 'react-icons/fi'
 import LeadForm from '@/components/LeadForm'
 import PageHero from '@/components/PageHero'
@@ -50,11 +50,13 @@ const ContactPage = async () => {
   const contactCardHeading = contactPage?.contactCardHeading || resolvedSiteInfo.name
   const contactCardIntro = contactPage?.contactCardIntro
   const facebookLabel = contactPage?.facebookLabel || 'Visit Page'
+  const instagramLabel = contactPage?.instagramLabel || 'View Profile'
   const warrantyNote =
     contactPage?.warrantyNote ||
     'Warranty and insulation options vary by manufacturer. We will help you compare details during your quote consultation.'
-  const mapQuery = encodeURIComponent(resolvedSiteInfo.address)
-  const googleMapSrc = `https://www.google.com/maps?q=${mapQuery}&output=embed`
+  const mapQuery = encodeURIComponent(`${resolvedSiteInfo.address}, USA`)
+  const googleMapSrc =
+    resolvedSiteInfo.googleMapsEmbedUrl || `https://www.google.com/maps?output=embed&q=${mapQuery}`
 
   return (
     <>
@@ -93,6 +95,7 @@ const ContactPage = async () => {
             <p className="flex gap-3 rounded-[1.1rem] border border-slate-200 bg-slate-50 px-4 py-3"><FiMapPin className="mt-1 text-brand-700" /><span><span className="font-semibold">Address:</span> {resolvedSiteInfo.address}</span></p>
             <p className="flex gap-3 rounded-[1.1rem] border border-slate-200 bg-slate-50 px-4 py-3"><FiClock className="mt-1 text-brand-700" /><span><span className="font-semibold">Hours:</span> {resolvedSiteInfo.hours}</span></p>
             <p className="flex gap-3 rounded-[1.1rem] border border-slate-200 bg-slate-50 px-4 py-3"><FaFacebookF className="mt-1 text-brand-700" /><span><span className="font-semibold">Facebook:</span> <a href={resolvedSiteInfo.social.facebook} target="_blank" rel="noreferrer">{facebookLabel}</a></span></p>
+            <p className="flex gap-3 rounded-[1.1rem] border border-slate-200 bg-slate-50 px-4 py-3"><FaInstagram className="mt-1 text-brand-700" /><span><span className="font-semibold">Instagram:</span> <a href={resolvedSiteInfo.social.instagram} target="_blank" rel="noreferrer">{instagramLabel}</a></span></p>
           </div>
 
           <div className="mt-6 rounded-[1.3rem] border border-emerald-100 bg-gradient-to-r from-emerald-50 to-tan-50 p-4 text-sm text-charcoal-700">

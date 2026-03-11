@@ -50,6 +50,7 @@ export type ContactPageCmsContent = {
   contactCardHeading?: string
   contactCardIntro?: string
   facebookLabel?: string
+  instagramLabel?: string
   warrantyNote?: string
   financingPartnersHeading?: string
   financingPartnersIntro?: string
@@ -113,6 +114,7 @@ export type SiteSettingsCmsContent = {
   threeDBuilderUrl?: string
   email?: string
   address?: string
+  googleMapsEmbedUrl?: string
   hours?: string
   serviceArea?: string
   facebookUrl?: string

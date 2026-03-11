@@ -3,6 +3,7 @@ import type { SiteSettingsCmsContent } from '@/lib/sanity/content'
 
 export type ResolvedSiteInfo = typeof siteInfo & {
   footerSummary?: string
+  googleMapsEmbedUrl?: string
 }
 
 export function resolveSiteInfo(cms?: SiteSettingsCmsContent | null): ResolvedSiteInfo {
@@ -15,6 +16,7 @@ export function resolveSiteInfo(cms?: SiteSettingsCmsContent | null): ResolvedSi
     threeDBuilderUrl: cms?.threeDBuilderUrl || siteInfo.threeDBuilderUrl,
     email: cms?.email || siteInfo.email,
     address: cms?.address || siteInfo.address,
+    googleMapsEmbedUrl: cms?.googleMapsEmbedUrl || siteInfo.googleMapsEmbedUrl,
     hours: cms?.hours || siteInfo.hours,
     serviceArea: cms?.serviceArea || siteInfo.serviceArea,
     social: {

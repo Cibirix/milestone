@@ -5,7 +5,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { FiChevronDown, FiMenu, FiPhone, FiTool, FiX } from 'react-icons/fi'
-import CategoryIcon from '@/components/CategoryIcon'
+import CategoryIcon, { getCategoryTheme } from '@/components/CategoryIcon'
 import { getCategoryMenuItems } from '@/lib/productCategories'
 
 type HeaderProps = {
@@ -28,12 +28,14 @@ const Header = ({ siteInfo }: HeaderProps) => {
   const pathname = usePathname()
   const categoryMenuItems = getCategoryMenuItems()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [isCategoriesOpen, setIsCategoriesOpen] = useState(false)
+  const [isDesktopCategoriesOpen, setIsDesktopCategoriesOpen] = useState(false)
+  const [isMobileCategoriesOpen, setIsMobileCategoriesOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
 
   useEffect(() => {
     setIsMenuOpen(false)
-    setIsCategoriesOpen(false)
+    setIsDesktopCategoriesOpen(false)
+    setIsMobileCategoriesOpen(false)
   }, [pathname])
 
   useEffect(() => {
@@ -73,36 +75,39 @@ const Header = ({ siteInfo }: HeaderProps) => {
           <nav className="hidden items-center gap-9 lg:flex" aria-label="Main navigation">
             <div
               className="relative"
-              onMouseEnter={() => setIsCategoriesOpen(true)}
-              onMouseLeave={() => setIsCategoriesOpen(false)}
+              onMouseEnter={() => setIsDesktopCategoriesOpen(true)}
+              onMouseLeave={() => setIsDesktopCategoriesOpen(false)}
             >
               <button
                 type="button"
-                onClick={() => setIsCategoriesOpen((prev) => !prev)}
-                aria-expanded={isCategoriesOpen}
+                onClick={() => setIsDesktopCategoriesOpen((prev) => !prev)}
+                aria-expanded={isDesktopCategoriesOpen}
                 aria-haspopup="true"
                 className={`inline-flex items-center gap-1 text-base font-semibold transition-colors ${
                   pathname.startsWith('/products/category/') ? 'text-rust-700' : 'text-charcoal-700 hover:text-rust-700'
                 }`}
               >
                 Building Styles
-                <FiChevronDown className={`text-xs transition-transform duration-200 ${isCategoriesOpen ? 'rotate-180' : ''}`} />
+                <FiChevronDown className={`text-xs transition-transform duration-200 ${isDesktopCategoriesOpen ? 'rotate-180' : ''}`} />
               </button>
 
-              {isCategoriesOpen && (
-                <div className="absolute left-0 top-full mt-2 w-68 overflow-hidden rounded-xl border border-slate-200 bg-white p-1.5 shadow-[0_16px_48px_-20px_rgba(15,29,54,0.2)]">
+              {isDesktopCategoriesOpen && (
+                <div className="absolute left-0 top-full w-68 pt-2">
+                  <div className="overflow-hidden rounded-xl border border-slate-200 bg-white p-1.5 shadow-[0_16px_48px_-20px_rgba(15,29,54,0.2)]">
                   {categoryMenuItems.map((category) => (
                     <Link
                       key={category.slug}
                       href={`/products/category/${category.slug}`}
+                      onClick={() => setIsDesktopCategoriesOpen(false)}
                       className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-charcoal-700 transition-all duration-200 hover:translate-x-0.5 hover:bg-slate-50 hover:text-rust-700"
                     >
-                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-rust-50 text-rust-700">
+                      <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-md ${getCategoryTheme(category.label).surfaceClass}`}>
                         <CategoryIcon category={category.label} className="h-4 w-4" />
                       </span>
                       {category.menuLabel}
                     </Link>
                   ))}
+                  </div>
                 </div>
               )}
             </div>
@@ -171,21 +176,22 @@ const Header = ({ siteInfo }: HeaderProps) => {
               <div className="overflow-hidden rounded-lg border border-slate-100 bg-slate-50">
                 <button
                   type="button"
-                  onClick={() => setIsCategoriesOpen((prev) => !prev)}
+                  onClick={() => setIsMobileCategoriesOpen((prev) => !prev)}
                   className="flex w-full items-center justify-between px-4 py-2.5 text-sm font-semibold text-charcoal-700"
                 >
                   Building Styles
-                  <FiChevronDown className={`text-xs transition-transform ${isCategoriesOpen ? 'rotate-180' : ''}`} />
+                  <FiChevronDown className={`text-xs transition-transform ${isMobileCategoriesOpen ? 'rotate-180' : ''}`} />
                 </button>
-                {isCategoriesOpen && (
+                {isMobileCategoriesOpen && (
                   <div className="border-t border-slate-100 px-2 pb-2">
                     {categoryMenuItems.map((category) => (
                       <Link
                         key={category.slug}
                         href={`/products/category/${category.slug}`}
+                        onClick={() => setIsMobileCategoriesOpen(false)}
                         className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-charcoal-700 hover:bg-white"
                       >
-                        <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-white text-rust-700 shadow-sm">
+                        <span className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-md shadow-sm ${getCategoryTheme(category.label).surfaceClass}`}>
                           <CategoryIcon category={category.label} className="h-3.5 w-3.5" />
                         </span>
                         {category.menuLabel}
