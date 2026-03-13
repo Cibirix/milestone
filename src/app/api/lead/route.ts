@@ -148,9 +148,12 @@ export async function POST(request: NextRequest) {
     },
   }
 
-  const senseiCrmUrl = process.env.SENSEI_CRM_API_URL
+  const senseiCrmUrl = process.env.SENSEI_CRM_API_URL || process.env.SENSEI_CRM_URL
   const senseiCrmToken = process.env.SENSEI_CRM_API_TOKEN
   const webhookUrl = process.env.LEAD_WEBHOOK_URL
+
+  let delivered = false
+  const errors: string[] = []
 
   if (senseiCrmUrl && senseiCrmToken) {
     try {
@@ -159,15 +162,19 @@ export async function POST(request: NextRequest) {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${senseiCrmToken}`,
+          'x-api-key': senseiCrmToken,
         },
         body: JSON.stringify(leadRecord),
       })
 
       if (!crmResponse.ok) {
-        return NextResponse.json({ ok: false, error: 'CRM submission failed' }, { status: 502 })
+        const text = await crmResponse.text().catch(() => '')
+        errors.push(`CRM submission failed (${crmResponse.status})${text ? `: ${text.slice(0, 180)}` : ''}`)
+      } else {
+        delivered = true
       }
     } catch {
-      return NextResponse.json({ ok: false, error: 'CRM request error' }, { status: 502 })
+      errors.push('CRM request error')
     }
   }
 
@@ -180,15 +187,25 @@ export async function POST(request: NextRequest) {
       })
 
       if (!webhookResponse.ok) {
-        return NextResponse.json({ ok: false, error: 'Webhook submission failed' }, { status: 502 })
+        errors.push(`Webhook submission failed (${webhookResponse.status})`)
+      } else {
+        delivered = true
       }
     } catch {
-      return NextResponse.json({ ok: false, error: 'Webhook request error' }, { status: 502 })
+      errors.push('Webhook request error')
     }
   }
 
   if (!senseiCrmUrl && !webhookUrl) {
     console.info('Lead captured (no CRM/webhook configured):', leadRecord)
+    return NextResponse.json({ ok: true })
+  }
+
+  if (!delivered) {
+    return NextResponse.json(
+      { ok: false, error: errors[0] || 'Lead delivery failed. Check CRM/webhook configuration.' },
+      { status: 502 },
+    )
   }
 
   return NextResponse.json({ ok: true })

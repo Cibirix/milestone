@@ -75,14 +75,6 @@ export default async function RootLayout({
     telephone: resolvedSiteInfo.phone,
     email: resolvedSiteInfo.email,
     image: 'https://www.milestonestructures.com/brand/milestone-logo-seo.jpg',
-    address: {
-      '@type': 'PostalAddress',
-      streetAddress: resolvedSiteInfo.address,
-      addressLocality: 'Pilot Mountain',
-      addressRegion: 'NC',
-      postalCode: '27047',
-      addressCountry: 'US',
-    },
     openingHours: ['Mo-Su 08:00-20:00'],
     sameAs: [resolvedSiteInfo.social.facebook, resolvedSiteInfo.social.instagram].filter(Boolean),
   }

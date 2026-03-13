@@ -36,9 +36,17 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 const defaultCoverageStates = [
+  'Connecticut',
+  'Illinois',
+  'Indiana',
+  'Kansas',
+  'Kentucky',
+  'Mississippi',
+  'Missouri',
+  'New Mexico',
+  'Ohio',
   'New York',
   'Pennsylvania',
-  'New Jersey',
   'Delaware',
   'Maryland',
   'Washington, D.C.',
@@ -49,7 +57,7 @@ const defaultCoverageStates = [
   'Georgia',
   'Alabama',
   'Florida',
-  'East Texas',
+  'Texas',
   'Oklahoma',
   'Arkansas',
   'Louisiana',

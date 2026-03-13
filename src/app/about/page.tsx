@@ -72,10 +72,10 @@ const AboutPage = async () => {
         <article className="panel-card h-fit self-start overflow-hidden">
           <div className="relative h-64">
             <Image
-              src="/pages/about-story.jpg"
-              alt="Owner reviewing metal building plans with field team"
+              src="/pages/owner-story-josh-wife.jpg"
+              alt="Milestone owners Josh and his wife"
               fill
-              className="object-cover object-[center_18%]"
+              className="object-cover object-[center_14%]"
               unoptimized
             />
             <div className="absolute inset-0 bg-gradient-to-r from-[#101922]/80 via-[#101922]/42 to-transparent" />

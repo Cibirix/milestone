@@ -1,7 +1,7 @@
 import { Metadata } from 'next'
 import Image from 'next/image'
 import { FaFacebookF, FaInstagram } from 'react-icons/fa'
-import { FiClock, FiMail, FiMapPin, FiPhone } from 'react-icons/fi'
+import { FiClock, FiMail, FiPhone } from 'react-icons/fi'
 import LeadForm from '@/components/LeadForm'
 import PageHero from '@/components/PageHero'
 import { getContactPageCmsContent, getSiteSettingsCmsContent } from '@/lib/sanity/content'
@@ -54,9 +54,6 @@ const ContactPage = async () => {
   const warrantyNote =
     contactPage?.warrantyNote ||
     'Warranty and insulation options vary by manufacturer. We will help you compare details during your quote consultation.'
-  const mapQuery = encodeURIComponent(`${resolvedSiteInfo.address}, USA`)
-  const googleMapSrc =
-    resolvedSiteInfo.googleMapsEmbedUrl || `https://www.google.com/maps?output=embed&q=${mapQuery}`
 
   return (
     <>
@@ -92,7 +89,6 @@ const ContactPage = async () => {
           <div className="mt-6 space-y-3 border-b border-slate-200 pb-6 text-charcoal-700">
             <p className="flex gap-3 rounded-[1.1rem] border border-slate-200 bg-slate-50 px-4 py-3"><FiPhone className="mt-1 text-brand-700" /><span><span className="font-semibold">Phone:</span> <a href={`tel:${resolvedSiteInfo.phoneDigits}`}>{resolvedSiteInfo.phone}</a></span></p>
             <p className="flex gap-3 rounded-[1.1rem] border border-slate-200 bg-slate-50 px-4 py-3"><FiMail className="mt-1 text-brand-700" /><span><span className="font-semibold">Email:</span> <a href={`mailto:${resolvedSiteInfo.email}`}>{resolvedSiteInfo.email}</a></span></p>
-            <p className="flex gap-3 rounded-[1.1rem] border border-slate-200 bg-slate-50 px-4 py-3"><FiMapPin className="mt-1 text-brand-700" /><span><span className="font-semibold">Address:</span> {resolvedSiteInfo.address}</span></p>
             <p className="flex gap-3 rounded-[1.1rem] border border-slate-200 bg-slate-50 px-4 py-3"><FiClock className="mt-1 text-brand-700" /><span><span className="font-semibold">Hours:</span> {resolvedSiteInfo.hours}</span></p>
             <p className="flex gap-3 rounded-[1.1rem] border border-slate-200 bg-slate-50 px-4 py-3"><FaFacebookF className="mt-1 text-brand-700" /><span><span className="font-semibold">Facebook:</span> <a href={resolvedSiteInfo.social.facebook} target="_blank" rel="noreferrer">{facebookLabel}</a></span></p>
             <p className="flex gap-3 rounded-[1.1rem] border border-slate-200 bg-slate-50 px-4 py-3"><FaInstagram className="mt-1 text-brand-700" /><span><span className="font-semibold">Instagram:</span> <a href={resolvedSiteInfo.social.instagram} target="_blank" rel="noreferrer">{instagramLabel}</a></span></p>
@@ -106,23 +102,6 @@ const ContactPage = async () => {
         <div className="relative h-full lg:pl-2">
           <div className="pointer-events-none absolute inset-y-2 left-0 hidden w-px bg-gradient-to-b from-transparent via-brand-200 to-transparent lg:block" />
           <LeadForm phone={resolvedSiteInfo.phone} className="h-full" />
-        </div>
-      </div>
-    </section>
-
-    <section className="bg-slate-50 pb-14">
-      <div className="container-custom">
-        <div className="overflow-hidden rounded-[1.3rem] border border-slate-200 bg-white">
-          <div className="border-b border-slate-200 px-4 py-3">
-            <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-charcoal-500">Google Maps</p>
-          </div>
-          <iframe
-            src={googleMapSrc}
-            title="Milestone Structures location map"
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-            className="h-[420px] w-full"
-          />
         </div>
       </div>
     </section>

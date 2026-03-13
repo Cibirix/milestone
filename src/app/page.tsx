@@ -384,21 +384,20 @@ const HomePage = async () => {
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
-              {[
-                { value: '15+', label: 'Years of experience' },
-                { value: '50', label: 'States served' },
-                { value: '10k+', label: 'Structures delivered' },
-                { value: '4.9★', label: 'Average customer rating' },
-              ].map((stat) => (
-                <div
-                  key={stat.label}
-                  className="rounded-2xl border border-white/10 bg-white/5 p-6 text-center"
-                >
-                  <p className="font-display text-4xl font-black text-rust-500">{stat.value}</p>
-                  <p className="mt-2 text-xs font-semibold uppercase tracking-wider text-slate-400">{stat.label}</p>
-                </div>
-              ))}
+            <div className="rounded-2xl border border-white/10 bg-white/5 p-7">
+              <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-rust-400">What You Can Expect</p>
+              <div className="mt-4 space-y-4">
+                {[
+                  'Veteran-led project support from quote through delivery.',
+                  'Straightforward options on sizing, layouts, and manufacturer packages.',
+                  'Clear timelines and practical communication without runaround.',
+                ].map((item) => (
+                  <p key={item} className="flex gap-3 text-sm leading-7 text-slate-300">
+                    <FiCheckCircle className="mt-1 shrink-0 text-rust-500" />
+                    {item}
+                  </p>
+                ))}
+              </div>
             </div>
           </div>
         </div>

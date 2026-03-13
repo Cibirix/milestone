@@ -11,9 +11,17 @@ type CoverageState = {
 }
 
 const coverageStates: CoverageState[] = [
+  { name: 'Connecticut', label: 'Connecticut' },
+  { name: 'Illinois', label: 'Illinois' },
+  { name: 'Indiana', label: 'Indiana' },
+  { name: 'Kansas', label: 'Kansas' },
+  { name: 'Kentucky', label: 'Kentucky' },
+  { name: 'Mississippi', label: 'Mississippi' },
+  { name: 'Missouri', label: 'Missouri' },
+  { name: 'New Mexico', label: 'New Mexico' },
+  { name: 'Ohio', label: 'Ohio' },
   { name: 'New York', label: 'New York' },
   { name: 'Pennsylvania', label: 'Pennsylvania' },
-  { name: 'New Jersey', label: 'New Jersey' },
   { name: 'Delaware', label: 'Delaware' },
   { name: 'Maryland', label: 'Maryland' },
   { name: 'District of Columbia', label: 'Washington, D.C.' },
@@ -24,14 +32,14 @@ const coverageStates: CoverageState[] = [
   { name: 'Georgia', label: 'Georgia' },
   { name: 'Alabama', label: 'Alabama' },
   { name: 'Florida', label: 'Florida' },
-  { name: 'Texas', label: 'East Texas', note: 'Coverage emphasis: East Texas' },
+  { name: 'Texas', label: 'Texas' },
   { name: 'Oklahoma', label: 'Oklahoma' },
   { name: 'Arkansas', label: 'Arkansas' },
   { name: 'Louisiana', label: 'Louisiana' },
 ]
 
 const CoverageMap = () => {
-  const [activeStateName, setActiveStateName] = useState('North Carolina')
+  const [activeStateName, setActiveStateName] = useState('Tennessee')
   const coverageStateNames = useMemo(
     () => new Set(coverageStates.map((state) => state.name)),
     [],
